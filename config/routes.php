@@ -7,7 +7,7 @@ $mapper->connect(
     'Api',
     '/api/:action',
     [
-        'controller' => 'ApiHandler',
+        'controller' => 'ApiPasswordReact',
         'stack' => [
 
         ],
