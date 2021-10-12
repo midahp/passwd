@@ -1,7 +1,7 @@
 <?php
 use Horde\Core\Middleware\AuthHordeSession;
 use Horde\Core\Middleware\RedirectToLogin;
-use Horde\Passwd\Middleware\ReactInit;
+    
 
 $mapper->connect(
     'Api',

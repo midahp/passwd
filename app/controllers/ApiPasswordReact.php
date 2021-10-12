@@ -10,7 +10,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 /**
 
  */
-class Passwd_ChangePasswordReact_Controller implements RequestHandlerInterface
+class Passwd_ApiPasswordReact_Controller implements RequestHandlerInterface
 {
     protected ResponseFactoryInterface $responseFactory;
     protected StreamFactoryInterface $streamFactory;
@@ -31,8 +31,8 @@ class Passwd_ChangePasswordReact_Controller implements RequestHandlerInterface
     public function handle(RequestInterface $request): ResponseInterface
     {
         
-
-        $body = $this->streamFactory->createStream('test');
+        $test = "<p>Test</p>";
+        $body = $this->streamFactory->createStream($test);
         return $this->responseFactory->createResponse(200)->withBody($body);
     }
 
