@@ -16,13 +16,15 @@ class Passwd_ApiPasswordReact_Controller implements RequestHandlerInterface
     protected StreamFactoryInterface $streamFactory;
 
     public function __construct(
+        #Passwd_Driver $driver,
         ResponseFactoryInterface $responseFactory,
         StreamFactoryInterface $streamFactory
+        
     )
     {
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
-
+        #$this->driver = $driver;
     }
 
     /**
@@ -30,10 +32,21 @@ class Passwd_ApiPasswordReact_Controller implements RequestHandlerInterface
      */
     public function handle(RequestInterface $request): ResponseInterface
     {
-        
+        #$cat = $request->getParsedBody();
+
         $test = "<p>Test</p>";
         $body = $this->streamFactory->createStream($test);
         return $this->responseFactory->createResponse(200)->withBody($body);
+
+
+        // Passwd_Driver object cal and enter details
+
+        #$this->driver->changePasswd();
+
+
+
+        // then: changePassword($user, $oldpass, $newpass)
+
     }
 
     /**
