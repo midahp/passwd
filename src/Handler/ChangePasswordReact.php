@@ -1,16 +1,21 @@
 <?php
 
+namespace Horde\Passwd\Handler;
+
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use \Horde_View;
+
+
 
 /**
 
  */
-class Passwd_ChangePasswordReact_Controller implements RequestHandlerInterface
+class ChangePasswordReact implements RequestHandlerInterface
 {
     protected ResponseFactoryInterface $responseFactory;
     protected StreamFactoryInterface $streamFactory;
@@ -33,7 +38,7 @@ class Passwd_ChangePasswordReact_Controller implements RequestHandlerInterface
         
         // Fallback response
         // $code = 404;
-        // $reason = 'No Response by middleware or payload Handler';
+        // $reason = 'No Response by middleware or payload Handl:qer';
         // $body = $this->streamFactory->createStream($reason);
 
         // return $this->responseFactory->createResponse($code, $reason)->withBody($body);

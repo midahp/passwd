@@ -2,6 +2,7 @@
 use Horde\Core\Middleware\AuthHordeSession;
 use Horde\Core\Middleware\RedirectToLogin;
 use Horde\Passwd\Handler\ChangePasswordApiController;
+use Horde\Passwd\Handler\ChangePasswordReact;
 
 $mapper->connect(
     'Api',
@@ -18,7 +19,7 @@ $mapper->connect(
     'ReactInit',
     '/react',
     [
-        'controller' => 'ChangePasswordReact',
+        'controller' => ChangePasswordReact::class,
         'stack' => [
             AuthHordeSession::class,
             RedirectToLogin::class,
