@@ -15,7 +15,7 @@ New Password:<br>
 Confirm Password:<br>
 <input type="password" name="confirmPassword"><span id="confirmPassword" class="required"></span>
 <br><br>
-<input type="submit">
+<input type="submit" name="submit">
 </form>
 <br>
 <br>

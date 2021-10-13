@@ -1,13 +1,13 @@
 <?php
 use Horde\Core\Middleware\AuthHordeSession;
 use Horde\Core\Middleware\RedirectToLogin;
-    
+use Horde\Passwd\Handler\ChangePasswordApiController;
 
 $mapper->connect(
     'Api',
     '/api/:action',
     [
-        'controller' => 'ApiPasswordReact',
+        'controller' => ChangePasswordApiController::class,
         'stack' => [
 
         ],
