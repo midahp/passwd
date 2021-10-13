@@ -7,6 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use \Passwd_Driver as Driver;
+use \Horde_Notification;
+use PhpParser\Node\Stmt\TryCatch;
 
 /**
  * Implementing this stuff here: https://www.php-fig.org/psr/psr-7/, because Horde cannot deal with psr15 yet (right?)
@@ -40,12 +42,31 @@ class ChangePasswordApiController implements RequestHandlerInterface
         // This the output: Array ( [currentPassword] => test [newPassword] => testdfdf [confirmPassword] => testesrer ) 1
         // test
         $post = $request->getParsedBody();
+        $user = $post['user'];
+        $user = "administrator";
         $currentPassword = $post['currentPassword'];
         $newPassword = $post['newPassword'];
         $confirmPassword = $post['confirmPassword'];
 
+        
+
+        $jsonData = ['success' => false, 'message' => ''];
+
+
+        try {
+            $this->verifyPassword($user, $confirmPassword, $currentPassword, $newPassword);
+            $this->driver->changePassword($user, $currentPassword, $newPassword);
+            $jsonData['success'] = true;
+        } catch (\Throwable $th) {
+            //throw $th;
+            $jsonData['message'] = $th->getMessage();
+        }
+
+        $jsonString = json_encode($jsonData);
+
+        
     
-        $body = $this->streamFactory->createStream("It works");
+        $body = $this->streamFactory->createStream($jsonString);
         return $this->responseFactory->createResponse(200)->withBody($body);
         
     }
@@ -53,10 +74,14 @@ class ChangePasswordApiController implements RequestHandlerInterface
     /**
      * @param string $backend_key  Backend key.
      */
-    private function _changePassword($backend_key)
+    private function verifyPassword($user, $confirmPassword, $currentPassword, $newPassword )
     {
-        global $conf, $injector, $notification, $registry;
+        return;
+     
+        // Implementiere alles sodass es funktioniert: Extra Notizen mit was noch angepasst werden muss (TODO) (auf English)
 
+        $this->vars = $GLOBALS['injector']->getInstance('Horde_Variables');
+        
         // THIS SHOULD BE DONE BY MIDDLEWARE?
         // 
         // Check for users that cannot change their passwords.
