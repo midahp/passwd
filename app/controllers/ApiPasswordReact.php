@@ -2,13 +2,13 @@
 
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
 /**
-
+ * Implementing this stuff here: https://www.php-fig.org/psr/psr-7/, because Horde cannot deal with psr15 yet (right?)
  */
 class Passwd_ApiPasswordReact_Controller implements RequestHandlerInterface
 {
@@ -16,7 +16,7 @@ class Passwd_ApiPasswordReact_Controller implements RequestHandlerInterface
     protected StreamFactoryInterface $streamFactory;
 
     public function __construct(
-        #Passwd_Driver $driver,
+        #Passwd_Driver $driver, 
         ResponseFactoryInterface $responseFactory,
         StreamFactoryInterface $streamFactory
         
@@ -30,12 +30,23 @@ class Passwd_ApiPasswordReact_Controller implements RequestHandlerInterface
     /**
      * Handle a request
      */
-    public function handle(RequestInterface $request): ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        #$cat = $request->getParsedBody();
+        // Array ( [currentPassword] => test [newPassword] => testdfdf [confirmPassword] => testesrer ) 1
+        $post = $request->getParsedBody();
+        $currentpassword = $post['currentPassword'];
+        $newpassword = $post['newPassword'];
+        $confirmPassword = $post['confirmPassword'];
 
-        $test = "<p>Test</p>";
-        $body = $this->streamFactory->createStream($test);
+        
+
+        $test = "
+        <p>currentpassword = ".$post['currentPassword']."</p>
+        <p>newpassword = ".$post['newPassword']."</p>
+        <p>confirmPassword = ".$post['confirmPassword']."</p>    
+        ";
+
+        $body = $this->streamFactory->createStream(print_r($test));
         return $this->responseFactory->createResponse(200)->withBody($body);
 
 
@@ -63,23 +74,23 @@ class Passwd_ApiPasswordReact_Controller implements RequestHandlerInterface
      *
      * @return boolean  True if this entry is "preferred".
      */
-    private function _isPreferredBackend($backend)
-    {
-        if (!empty($backend['preferred'])) {
-            if (is_array($backend['preferred'])) {
-                foreach ($backend['preferred'] as $backend) {
-                    if ($backend == $_SERVER['SERVER_NAME'] ||
-                        $backend == $_SERVER['HTTP_HOST']) {
-                        return true;
-                    }
-                }
-            } elseif ($backend['preferred'] == $_SERVER['SERVER_NAME'] ||
-                      $backend['preferred'] == $_SERVER['HTTP_HOST']) {
-                return true;
-            }
-        }
+    // private function _isPreferredBackend($backend)
+    // {
+    //     if (!empty($backend['preferred'])) {
+    //         if (is_array($backend['preferred'])) {
+    //             foreach ($backend['preferred'] as $backend) {
+    //                 if ($backend == $_SERVER['SERVER_NAME'] ||
+    //                     $backend == $_SERVER['HTTP_HOST']) {
+    //                     return true;
+    //                 }
+    //             }
+    //         } elseif ($backend['preferred'] == $_SERVER['SERVER_NAME'] ||
+    //                   $backend['preferred'] == $_SERVER['HTTP_HOST']) {
+    //             return true;
+    //         }
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
 }
