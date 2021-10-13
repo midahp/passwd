@@ -39,8 +39,7 @@ class ChangePasswordApiController implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         
-        // This the output: Array ( [currentPassword] => test [newPassword] => testdfdf [confirmPassword] => testesrer ) 1
-        // test
+        // fertig? mach unittests für den Controller (probleme mit Globals? Mach Mock vom Inhalt von Globals)
         $post = $request->getParsedBody();
         $user = $post['user'];
         $user = "administrator";
@@ -49,7 +48,7 @@ class ChangePasswordApiController implements RequestHandlerInterface
         $confirmPassword = $post['confirmPassword'];
 
         
-
+        // header: Content-Type: application/json
         $jsonData = ['success' => false, 'message' => ''];
 
 
@@ -67,7 +66,7 @@ class ChangePasswordApiController implements RequestHandlerInterface
         
     
         $body = $this->streamFactory->createStream($jsonString);
-        return $this->responseFactory->createResponse(200)->withBody($body);
+        return $this->responseFactory->createResponse(200)->withBody($body)->withHeader('Content-Type', 'application/json');
         
     }
 

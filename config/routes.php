@@ -6,11 +6,11 @@ use Horde\Passwd\Handler\ChangePasswordReact;
 
 $mapper->connect(
     'Api',
-    '/api/:action',
+    '/api/changepw',
     [
         'controller' => ChangePasswordApiController::class,
         'stack' => [
-
+            
         ],
     ]
 );
