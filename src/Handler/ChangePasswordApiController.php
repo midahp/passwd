@@ -6,7 +6,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-
+use \Passwd_Driver as Driver;
 
 /**
  * Implementing this stuff here: https://www.php-fig.org/psr/psr-7/, because Horde cannot deal with psr15 yet (right?)
@@ -16,14 +16,14 @@ class ChangePasswordApiController implements RequestHandlerInterface
 
     protected ResponseFactoryInterface $responseFactory;
     protected StreamFactoryInterface $streamFactory;
-    private Passwd_Driver $driver;
+    private Driver $driver;
 
 
    
     public function __construct(
         ResponseFactoryInterface $responseFactory,
         StreamFactoryInterface $streamFactory,
-        Passwd_Driver $driver
+        Driver $driver
     )
     {
         $this->responseFactory = $responseFactory;
@@ -36,56 +36,18 @@ class ChangePasswordApiController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        
         // This the output: Array ( [currentPassword] => test [newPassword] => testdfdf [confirmPassword] => testesrer ) 1
         // test
         $post = $request->getParsedBody();
-        $currentpassword = $post['currentPassword'];
-        $newpassword = $post['newPassword'];
+        $currentPassword = $post['currentPassword'];
+        $newPassword = $post['newPassword'];
         $confirmPassword = $post['confirmPassword'];
 
-        $test = "
-        <p>currentpassword = ".$post['currentPassword']."</p>
-        <p>newpassword = ".$post['newPassword']."</p>
-        <p>confirmPassword = ".$post['confirmPassword']."</p>    
-        ";
-
-
-        // setup password driver that selects the correct db-connection-setup to insert data into DB
-
-        // $this->_vars = $GLOBALS['injector']->getInstance('Horde_Variables');
-        // $testbackends = $GLOBALS['injector']->getInstance('Passwd_Factory_Driver')->backends;
+    
+        $body = $this->streamFactory->createStream("It works");
+        return $this->responseFactory->createResponse(200)->withBody($body);
         
-        // Get the backend details.
-        $backend_key = $this->_vars->backend;
-        if (!isset($this->_backends[$backend_key])) {
-            $backend_key = null;
-        }
-
-        // For testing I removed: && $this->_vars->submit
-        if ($backend_key && $this->_vars->submit) {
-            $this->_changePassword($backend_key);
-        }
-        else {
-            $body = $this->streamFactory->createStream(print_r($this->_vars));
-            return $this->responseFactory->createResponse(200)->withBody($body);
-        }
-        
-        // Choose the prefered backend from config/backends.php.
-        foreach ($this->_backends as $k => $v) {
-            if (!isset($backend_key) && (substr($k, 0, 1) != '_')) {
-                $backend_key = $k;
-            }
-            if ($this->_isPreferredBackend($v)) {
-                $backend_key = $k;
-                break;
-            }
-        }
-
-        
-
-        // $body = $this->streamFactory->createStream(print_r($driver));
-        // return $this->responseFactory->createResponse(200)->withBody($body);
-
     }
 
     /**

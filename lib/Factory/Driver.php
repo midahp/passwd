@@ -50,6 +50,32 @@ class Passwd_Factory_Driver extends Horde_Core_Factory_Base
     }
 
     /**
+     * Autowiring-friendly factory proxy
+     * 
+     * This returns a collection of backends even if there is only one
+     */
+    public function createBackendCollection($injector): array
+    {
+        $this->_loadBackends();
+        $backends = [];
+        foreach ($this->_backends as $name => $params) {
+            $backends[] = $this->create($name, $params);
+        }
+        return $backends;
+    }
+
+    /**
+     * Autowiring-friendly factory proxy
+     * 
+     * This returns only the first non-disabled backend even if there are multiple
+     */
+    public function createFirstBackend($injector)
+    {
+        $backends = $this->createBackendCollection($injector);
+        return $backends[0];
+    }
+
+    /**
      * Returns the Passwd_Driver instance.
      *
      * @param string $name   A string containing the internal name of this

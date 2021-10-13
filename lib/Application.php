@@ -48,4 +48,8 @@ class Passwd_Application extends Horde_Registry_Application
      * The version of passwd as shown in the admin view
      */
     public $version = 'H5 (6.0.0alpha3)';
+    protected function _bootstrap()
+    {
+        $GLOBALS['injector']->bindFactory('Passwd_Driver', 'Passwd_Factory_Driver', 'createFirstBackend');
+    }
 }
