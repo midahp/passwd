@@ -8,10 +8,21 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use \Passwd_Driver as Driver;
+use \Horde_Notification_Exception as Notification;
+use \Horde\Core\Config\State as Configuration;
+use \Horde_Registry;
+
+
+
+
+
+
+// this is for testing and should be removed
+use \Horde_Session;
 
 
 /**
- * Implementing this stuff here: https://www.php-fig.org/psr/psr-7/, because Horde cannot deal with psr15 yet (right?)
+ * Implementing psr-7
  */
 class ChangePassword implements RequestHandlerInterface
 {
@@ -19,18 +30,33 @@ class ChangePassword implements RequestHandlerInterface
     protected ResponseFactoryInterface $responseFactory;
     protected StreamFactoryInterface $streamFactory;
     private Driver $driver;
+    private Notification $notification;
+    private Configuration $config;
+    private Horde_Registry $registry;
+
+    // this is for testing and should be removed
+    protected Horde_Session $session;
 
 
    
     public function __construct(
+        Horde_Session $session, // this is for testing and should be removed
         ResponseFactoryInterface $responseFactory,
         StreamFactoryInterface $streamFactory,
-        Driver $driver
+        Driver $driver,
+        Notification $notification,
+        Configuration $config,
+        Horde_Registry $registry
     )
     {
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $this->driver = $driver;
+        $this->notification = $notification;
+        $this->config = $config;
+        $this->registry = $registry;
+        // this is for testing and should be removed
+        $this->session = $session;
     }
 
     /**
@@ -40,8 +66,25 @@ class ChangePassword implements RequestHandlerInterface
     {
         
         // fertig? mach unittests für den Controller (probleme mit Globals? Mach Mock vom Inhalt von Globals)
+        
+        
+        // testing request object
+        $testObjectFromRequest = [
+            "username" => "string",
+            "oldPassword" => "string",
+            "newPassword" => "string",
+            "newPasswordConfirm" => "string"
+        ];
+        
+
+        $testObjectFromRequest = json_encode($testObjectFromRequest);
+
+        $token = (string) $this->session->getToken();
+
+
+        
         $post = $request->getParsedBody();
-        $username = $post['username'];
+        $user = $post['username'];
         $currentPassword = $post['oldPassword'];
         $newPassword = $post['newPassword'];
         $confirmPassword = $post['newPasswordConfirm'];
@@ -62,10 +105,15 @@ class ChangePassword implements RequestHandlerInterface
 
         $jsonString = json_encode($jsonData);
 
-        
+        // $body = $this->streamFactory->createStream($jsonString);
+        // return $this->responseFactory->createResponse(200)->withBody($body)->withHeader('Content-Type', 'application/json');
     
-        $body = $this->streamFactory->createStream($jsonString);
-        return $this->responseFactory->createResponse(200)->withBody($body)->withHeader('Content-Type', 'application/json');
+        $userid = $this->registry->getAuth();
+        $conf = $this->config;
+
+        // testing request object
+        $body = $this->streamFactory->createStream(print_r($conf));
+        return $this->responseFactory->createResponse(200)->withBody($body)->withHeader('Horde-Session-Token', $token)->withAddedHeader('Content-Type', 'application/json');
         
     }
 
@@ -78,15 +126,32 @@ class ChangePassword implements RequestHandlerInterface
      
         // Implementiere alles sodass es funktioniert: Extra Notizen mit was noch angepasst werden muss (TODO) (auf English)
 
-        $this->vars = $GLOBALS['injector']->getInstance('Horde_Variables');
+        // $this->vars = $GLOBALS['injector']->getInstance('Horde_Variables');
+    
+        $notification = $this->notification;
+        $conf = $this->config;
+        $registry = $this->registry;
+        $userid = $registry->getAuth();
         
+        
+
         // THIS SHOULD BE DONE BY MIDDLEWARE?
-        // 
-        // Check for users that cannot change their passwords.
-        // if (in_array($this->_userid, $conf['user']['refused'])) {
-        //     $notification->push(sprintf(_("You can't change password for user %s"), $userid), 'horde.error');
-        //     return;
+
+        // Check if users exists
+        // if ($conf['user']['change'] === true) {
+        //     $this->_userid = $vars->get('userid', $this->_userid);
+        // } else {
+        //     try {
+        //         $this->_userid = Horde::callHook('default_username', array(), 'passwd');
+        //     } catch (Horde_Exception_HookNotSet $e) {}
         // }
+
+
+        // Check for users that cannot change their passwords.
+        if (in_array($userid, $conf['user']['refused'])) {
+            $notification->push(sprintf(_("You can't change password for user %s"), $userid), 'horde.error');
+            return;
+        }
 
         // // We must be passed the old (current) password.
         // if (!isset($this->_vars->oldpassword)) {

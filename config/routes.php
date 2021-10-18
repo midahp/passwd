@@ -17,7 +17,7 @@ $mapper->connect(
         'stack' => [
             AuthHordeSession::class,
             DemandAuthenticatedUser::class,
-            DemandSessionToken::class,
+            // DemandSessionToken::class,
         ],
     ]
 );
