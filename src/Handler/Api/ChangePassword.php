@@ -8,7 +8,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use \Passwd_Driver as Driver;
-use \Horde_Notification_Exception as Notification;
+use \Horde_Notification_Handler as Notification;
+use \Horde_Notification_Storage_Interface as Storage;
 use \Horde\Core\Config\State as Configuration;
 use \Horde_Registry;
 
@@ -31,11 +32,14 @@ class ChangePassword implements RequestHandlerInterface
     protected StreamFactoryInterface $streamFactory;
     private Driver $driver;
     private Notification $notification;
+    private Storage $storage;
     private Configuration $config;
     private Horde_Registry $registry;
 
+
     // this is for testing and should be removed
     protected Horde_Session $session;
+    
 
 
    
@@ -45,6 +49,7 @@ class ChangePassword implements RequestHandlerInterface
         StreamFactoryInterface $streamFactory,
         Driver $driver,
         Notification $notification,
+        Storage $storage,
         Configuration $config,
         Horde_Registry $registry
     )
@@ -52,10 +57,10 @@ class ChangePassword implements RequestHandlerInterface
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $this->driver = $driver;
-        $this->notification = $notification;
+        $this->notification = new Notification($storage);
         $this->config = $config;
         $this->registry = $registry;
-        // this is for testing and should be removed
+        // below is for testing and should be removed
         $this->session = $session;
     }
 
@@ -89,8 +94,6 @@ class ChangePassword implements RequestHandlerInterface
         $newPassword = $post['newPassword'];
         $confirmPassword = $post['newPasswordConfirm'];
 
-        
-        // header: Content-Type: application/json
         $jsonData = ['success' => false, 'message' => ''];
 
 
@@ -105,14 +108,18 @@ class ChangePassword implements RequestHandlerInterface
 
         $jsonString = json_encode($jsonData);
 
+        /**
+        * This is the code that I want to use for the real app. Currently it is commented, because Im testing with the code blow
+        */ 
         // $body = $this->streamFactory->createStream($jsonString);
         // return $this->responseFactory->createResponse(200)->withBody($body)->withHeader('Content-Type', 'application/json');
     
         $userid = $this->registry->getAuth();
+        $userid = $this->registry->getAuthInfo();
         $conf = $this->config;
 
         // testing request object
-        $body = $this->streamFactory->createStream(print_r($conf));
+        $body = $this->streamFactory->createStream(print_r($userid));
         return $this->responseFactory->createResponse(200)->withBody($body)->withHeader('Horde-Session-Token', $token)->withAddedHeader('Content-Type', 'application/json');
         
     }
@@ -122,152 +129,31 @@ class ChangePassword implements RequestHandlerInterface
      */
     private function verifyPassword($user, $confirmPassword, $currentPassword, $newPassword )
     {
-        return;
-     
-        // Implementiere alles sodass es funktioniert: Extra Notizen mit was noch angepasst werden muss (TODO) (auf English)
-
-        // $this->vars = $GLOBALS['injector']->getInstance('Horde_Variables');
-    
+        
+        // Implementiere Checks von basic.php: Extra Notizen mit was noch angepasst werden muss (TODO) (auf English)
+          
         $notification = $this->notification;
         $conf = $this->config;
         $registry = $this->registry;
         $userid = $registry->getAuth();
+        $userPassword = $registry->getAuthCredential();
         
         
 
         // THIS SHOULD BE DONE BY MIDDLEWARE?
 
-        // Check if users exists
-        // if ($conf['user']['change'] === true) {
-        //     $this->_userid = $vars->get('userid', $this->_userid);
-        // } else {
-        //     try {
-        //         $this->_userid = Horde::callHook('default_username', array(), 'passwd');
-        //     } catch (Horde_Exception_HookNotSet $e) {}
-        // }
-
-
         // Check for users that cannot change their passwords.
         if (in_array($userid, $conf['user']['refused'])) {
             $notification->push(sprintf(_("You can't change password for user %s"), $userid), 'horde.error');
-            return;
+            return false;
         }
 
-        // // We must be passed the old (current) password.
-        // if (!isset($this->_vars->oldpassword)) {
-        //     $notification->push(_("You must give your current password"), 'horde.warning');
-        //     return;
-        // }
+        // other checks are in basic.php, will try to take over as many as possible
 
-        // if (!isset($this->_vars->newpassword0)) {
-        //     $notification->push(_("You must give your new password"), 'horde.warning');
-        //     return;
-        // }
-        // if (!isset($this->_vars->newpassword1)) {
-        //     $notification->push(_("You must verify your new password"), 'horde.warning');
-        //     return;
-        // }
+        return;
 
-        // if ($this->_vars->newpassword0 != $this->_vars->newpassword1) {
-        //     $notification->push(_("Your new passwords didn't match"), 'horde.warning');
-        //     return;
-        // }
-
-        // if ($this->_vars->newpassword0 == $this->_vars->oldpassword) {
-        //     $notification->push(_("Your new password must be different from your current password"), 'horde.warning');
-        //     return;
-        // }
-
-        $b_ptr = $this->_backends[$backend_key];
-
-        try {
-            Horde_Auth::checkPasswordPolicy($this->_vars->newpassword0, isset($b_ptr['policy']) ? $b_ptr['policy'] : array());
-        } catch (Horde_Auth_Exception $e) {
-            $notification->push($e, 'horde.warning');
-            return;
-        }
-
-        // Do some simple strength tests, if enabled in the config file.
-        if (!empty($conf['password']['strengthtests'])) {
-            try {
-                Horde_Auth::checkPasswordSimilarity($this->_vars->newpassword0, array($this->_userid, $this->_vars->oldpassword));
-            } catch (Horde_Auth_Exception $e) {
-                $notification->push($e, 'horde.warning');
-                return;
-            }
-        }
-
-        try {
-            $driver = $injector->getInstance('Passwd_Factory_Driver')->create($backend_key);
-        } catch (Passwd_Exception $e) {
-            Horde::log($e);
-            $notification->push(_("Password module is not properly configured"), 'horde.error');
-            return;
-        }
-
-        try {
-            $driver->changePassword(
-                $this->_userid,
-                $this->_vars->oldpassword,
-                $this->_vars->newpassword0
-            );
-        } catch (Exception $e) {
-            $notification->push(sprintf(_("Failure in changing password for %s: %s"), $b_ptr['name'], $e->getMessage()), 'horde.error');
-            return;
-        }
-
-        $notification->push(sprintf(_("Password changed on %s."), $b_ptr['name']), 'horde.success');
-
-        try {
-            Horde::callHook('password_changed', array($this->_userid, $this->_vars->oldpassword, $this->_vars->newpassword0), 'passwd');
-        } catch (Horde_Exception_HookNotSet $e) {}
-
-        if (!empty($b_ptr['logout'])) {
-            $logout_url = $registry->getLogoutUrl(array(
-                'msg' => _("Your password has been succesfully changed. You need to re-login to the system with your new password."),
-                'reason' => Horde_Auth::REASON_MESSAGE
-            ));
-            $registry->clearAuth();
-            $logout_url->redirect();
-        }
-
-        if ($url = Horde::verifySignedUrl($this->_vars->return_to)) {
-            $url = new Horde_Url($url);
-            $url->redirect();
-        }
+       
     }
 
-       /**
-     * Determines if the given backend is the "preferred" backend for this web
-     * server.
-     *
-     * This decision is based on the global 'SERVER_NAME' and 'HTTP_HOST'
-     * server variables and the contents of the 'preferred' field in the
-     * backend's definition.  The 'preferred' field may take a single value or
-     * an array of multiple values.
-     *
-     * @param array $backend  A complete backend entry from the $backends
-     *                        hash.
-     *
-     * @return boolean  True if this entry is "preferred".
-     */
-    private function _isPreferredBackend($backend)
-    {
-        if (!empty($backend['preferred'])) {
-            if (is_array($backend['preferred'])) {
-                foreach ($backend['preferred'] as $backend) {
-                    if ($backend == $_SERVER['SERVER_NAME'] ||
-                        $backend == $_SERVER['HTTP_HOST']) {
-                        return true;
-                    }
-                }
-            } elseif ($backend['preferred'] == $_SERVER['SERVER_NAME'] ||
-                      $backend['preferred'] == $_SERVER['HTTP_HOST']) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
+     
 }
