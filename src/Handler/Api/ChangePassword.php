@@ -8,8 +8,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use \Passwd_Driver as Driver;
-use \Horde_Notification_Handler as Notification;
-use \Horde_Notification_Storage_Interface as Storage;
 use \Horde\Core\Config\State as Configuration;
 use \Horde_Registry;
 
@@ -31,8 +29,6 @@ class ChangePassword implements RequestHandlerInterface
     protected ResponseFactoryInterface $responseFactory;
     protected StreamFactoryInterface $streamFactory;
     private Driver $driver;
-    private Notification $notification;
-    private Storage $storage;
     private Configuration $config;
     private Horde_Registry $registry;
 
@@ -41,15 +37,13 @@ class ChangePassword implements RequestHandlerInterface
     protected Horde_Session $session;
     
 
-
+g
    
     public function __construct(
         Horde_Session $session, // this is for testing and should be removed
         ResponseFactoryInterface $responseFactory,
         StreamFactoryInterface $streamFactory,
         Driver $driver,
-        Notification $notification,
-        Storage $storage,
         Configuration $config,
         Horde_Registry $registry
     )
@@ -57,7 +51,6 @@ class ChangePassword implements RequestHandlerInterface
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $this->driver = $driver;
-        $this->notification = new Notification($storage);
         $this->config = $config;
         $this->registry = $registry;
         // below is for testing and should be removed
