@@ -100,7 +100,6 @@ class ChangePassword implements RequestHandlerInterface
         // sending the response object
         $body = $this->streamFactory->createStream($jsonString);
         $response = $this->responseFactory->createResponse($this->status, $this->reason)->withBody($body)
-        ->withHeader('Horde-Session-Token', $token)
         ->withHeader('Content-Type', 'application/json')
         ->withStatus($this->status, $this->reason);
 
