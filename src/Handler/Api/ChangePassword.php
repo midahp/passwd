@@ -10,15 +10,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 use \Passwd_Driver as Driver;
 use \Horde\Core\Config\State as Configuration;
 use \Horde_Registry;
-
-
-
-
-
-
-// this is for testing and should be removed
-use \Horde_Session;
-
+use \Horde_Auth;
 
 
 /**
@@ -34,16 +26,11 @@ class ChangePassword implements RequestHandlerInterface
     private Horde_Registry $registry;
     public $reason;
     public $status;
-
-
-    // this is for testing and should be removed
-    protected Horde_Session $session;
     
 
 
    
     public function __construct(
-        Horde_Session $session, // this is for testing and should be removed
         ResponseFactoryInterface $responseFactory,
         StreamFactoryInterface $streamFactory,
         Driver $driver,
@@ -56,8 +43,6 @@ class ChangePassword implements RequestHandlerInterface
         $this->driver = $driver;
         $this->config = $config;
         $this->registry = $registry;
-        // below is for testing and should be removed
-        $this->session = $session;
     }
 
     /**
@@ -67,29 +52,21 @@ class ChangePassword implements RequestHandlerInterface
     {
         
         // fertig? mach unittests für den Controller (probleme mit Globals? Mach Mock vom Inhalt von Globals)
-        
-        
-        // testing request object
-        $testObjectFromRequest = [
-            "username" => "charles",
-            "oldPassword" => "test123",
-            "newPassword" => "test123",
-            "newPasswordConfirm" => "dfdfdf"
-        ];
-        
-
-        $testObjectFromRequest = json_encode($testObjectFromRequest);
-
-        $token = $this->session->getToken();
-
+      
         /**
-         * Real code for later, now testing with uncommented code below
+         * For testing the code, uncommented code below and comment the line "$post = $request->getParsedBody();"
          */
+        //    // testing request object
+        //    $testObjectFromRequest = [
+        //     "username" => "charles",
+        //     "oldPassword" => "test123",
+        //     "newPassword" => "test123",
+        //     "newPasswordConfirm" => "test123"
+        // ];
+        // $testObjectFromRequest = json_encode($testObjectFromRequest);
+        // $post = json_decode($testObjectFromRequest);
         
-        // $post = $request->getParsedBody();
-
-
-        $post = json_decode($testObjectFromRequest);
+        $post = $request->getParsedBody();
         $user = $post->username;
         $currentPassword = $post->oldPassword;
         $newPassword = $post->newPassword;
@@ -98,7 +75,7 @@ class ChangePassword implements RequestHandlerInterface
         $jsonData = ['success' => false, 'message' => ''];
 
         if ($this->verifyPassword($user, $confirmPassword, $currentPassword, $newPassword)) {
-            // print_r("working out");
+            
             try {
                 $this->driver->changePassword($user, $currentPassword, $newPassword);
                 $jsonData['success'] = true;
@@ -112,8 +89,7 @@ class ChangePassword implements RequestHandlerInterface
          else  {
             $jsonData['message'] = $this->reason;
             $jsonData['success'] = false;
-            // print_r("something is bad");
-            // $jsonData['statuscode'] = $this->status;
+            
         }
 
         
@@ -165,17 +141,23 @@ class ChangePassword implements RequestHandlerInterface
         
         // Check for users that cannot change their passwords.
         if (in_array($userid, $conf['user']['refused'])) {
-            $this->reason = "You can't change password for user ".$user."";
+            $this->reason = "You do dont have permission to change password as user ".$user."";
             $this->status = (int) 403;
             $output = false;
             return;
         }   
         
         // Check that oldpassword is current password
-        // print_r($userPassword);
-
         if ($currentPassword !== $userPassword) {
             $this->reason = "Please enter your current password correctly";
+            $this->status = (int) 404;
+            $output = false;
+            return;
+        }
+
+        // check that new password is different from old password
+        if ($currentPassword == $newPassword) {
+            $this->reason = "Please enter a different password";
             $this->status = (int) 404;
             $output = false;
             return;
@@ -188,13 +170,44 @@ class ChangePassword implements RequestHandlerInterface
             $output = false;
             return;
         }
-        
+
+        // OTHER TESTS FROM BASIC.PHP NOT YET IMPLEMENTED (WILL IMPLEMENT AS MANY AS POSSIBLE AND AS IS USEFULL)
+        // $b_ptr = $this->_backends[$backend_key];
+
+        // try {
+        //     Horde_Auth::checkPasswordPolicy($this->_vars->newpassword0, isset($b_ptr['policy']) ? $b_ptr['policy'] : array());
+        // } catch (Horde_Auth_Exception $e) {
+        //     $notification->push($e, 'horde.warning');
+        //     return;
+        // }
+
+        // // Do some simple strength tests, if enabled in the config file.
+        // if (!empty($conf['password']['strengthtests'])) {
+        //     try {
+        //         Horde_Auth::checkPasswordSimilarity($this->_vars->newpassword0, array($this->_userid, $this->_vars->oldpassword));
+        //     } catch (Horde_Auth_Exception $e) {
+        //         $notification->push($e, 'horde.warning');
+        //         return;
+        //     }
+        // }     $b_ptr = $this->_backends[$backend_key];
+
+        // try {
+        //     Horde_Auth::checkPasswordPolicy($this->_vars->newpassword0, isset($b_ptr['policy']) ? $b_ptr['policy'] : array());
+        // } catch (Horde_Auth_Exception $e) {
+        //     $notification->push($e, 'horde.warning');
+        //     return;
+        // }
+
+        // // Do some simple strength tests, if enabled in the config file.
+        // if (!empty($conf['password']['strengthtests'])) {
+        //     try {
+        //         Horde_Auth::checkPasswordSimilarity($this->_vars->newpassword0, array($this->_userid, $this->_vars->oldpassword));
+        //     } catch (Horde_Auth_Exception $e) {
+        //         $notification->push($e, 'horde.warning');
+        //         return;
+        //     }
+        // }
 
         return $output;
-
-        // other checks are in basic.php, will try to take over as many as possible
-       
     }
-
-     
 }
