@@ -16,3 +16,5 @@ jobs:
         with:
           path: src/ lib/
           level: 5
+          php_version: 7.4
+          php_extensions: gettext mbstring
