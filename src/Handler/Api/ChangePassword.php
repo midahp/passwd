@@ -71,26 +71,23 @@ class ChangePassword implements RequestHandlerInterface
         
         // testing request object
         $testObjectFromRequest = [
-            "username" => "rafael",
-            "oldPassword" => "leafar8",
-            "newPassword" => "leafar8",
-            "newPasswordConfirm" => "leafar8"
+            "username" => "administrator",
+            "oldPassword" => "bullshit123",
+            "newPassword" => "test123",
+            "newPasswordConfirm" => "test123"
         ];
         
 
         $testObjectFromRequest = json_encode($testObjectFromRequest);
 
-        $token = (string) $this->session->getToken();
+        $token = $this->session->getToken();
 
         /**
          * Real code for later, now testing with uncommented code below
          */
         
         // $post = $request->getParsedBody();
-        // $user = $post['username'];
-        // $currentPassword = $post['oldPassword'];
-        // $newPassword = $post['newPassword'];
-        // $confirmPassword = $post['newPasswordConfirm'];
+
 
         $post = json_decode($testObjectFromRequest);
         $user = $post->username;
@@ -100,40 +97,43 @@ class ChangePassword implements RequestHandlerInterface
 
         $jsonData = ['success' => false, 'message' => ''];
 
-
-        try {
-            $this->verifyPassword($user, $confirmPassword, $currentPassword, $newPassword);
-            $this->driver->changePassword($user, $currentPassword, $newPassword);
-            $jsonData['success'] = true;
-        } catch (\Throwable $th) {
-            //throw $th;
-            $jsonData['message'] = $th->getMessage();
+        if ($this->verifyPassword($user, $confirmPassword, $currentPassword, $newPassword)) {
+            // print_r("working out");
+            try {
+                $this->driver->changePassword($user, $currentPassword, $newPassword);
+                $jsonData['success'] = true;
+                // $jsonData['statuscode'] = $this->status;
+            } catch (\Throwable $th) {
+                $jsonData['message'] = $th->getMessage();
+                $jsonData['success'] = false;
+                // $jsonData['statuscode'] = 404;
+            }
         }
+         else  {
+            $jsonData['message'] = $this->reason;
+            $jsonData['success'] = false;
+            // print_r("something is bad");
+            // $jsonData['statuscode'] = $this->status;
+        }
+
+        
 
         $jsonString = json_encode($jsonData);
 
-        /**
-        * This is the code that I want to use for the real app. Currently it is commented, because Im testing with the code below.
-        * Read below "Why bother?" what i want to impleemnt: https://www.php-fig.org/psr/psr-7/meta/
-        * - Also: No Notifications but Status Codes instead
-        */ 
-        // $body = $this->streamFactory->createStream($jsonString);
-        // return $this->responseFactory->createResponse(200)->withBody($body)->withHeader('Content-Type', 'application/json');
-    
-        $userid = $this->registry->getAuth();
-        $userid = $this->registry->getAuthInfo();
-        $conf = $this->config->toArray();
         
-        
-        // testing request object
+        // sending the response object
         $body = $this->streamFactory->createStream($jsonString);
-        return $this->responseFactory->createResponse(200)->withBody($body)
+        $response = $this->responseFactory->createResponse($this->status, $this->reason)->withBody($body)
         ->withHeader('Horde-Session-Token', $token)
         ->withHeader('Content-Type', 'application/json')
         ->withStatus($this->status, $this->reason);
+
+        // For debuggin use: \Horde::debug($response, '/dev/shm/test2', false);
+        return $response;
+
         
     }
-
+    
     /**
      * @param string $backend_key  Backend key.
      */
@@ -150,12 +150,15 @@ class ChangePassword implements RequestHandlerInterface
         
        
         // Check for users that cannot change their passwords.
-        if (in_array($userid, $conf['user']['refused'])) {
+        if (in_array($user, $conf['user']['refused'])) {
             $this->reason = "You can't change password for user ".$userid."";
-            $this->status = 403;
+            $this->status = (int) 403;
+            return false;
         }
         else{
-            $this->status = 200;
+            $this->reason = "";
+            $this->status = (int) 200;
+            return true;
         }
 
         // other checks are in basic.php, will try to take over as many as possible
