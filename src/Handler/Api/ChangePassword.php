@@ -71,10 +71,10 @@ class ChangePassword implements RequestHandlerInterface
         
         // testing request object
         $testObjectFromRequest = [
-            "username" => "rafael",
-            "oldPassword" => "bullshit123",
+            "username" => "charles",
+            "oldPassword" => "test123",
             "newPassword" => "test123",
-            "newPasswordConfirm" => "test123"
+            "newPasswordConfirm" => "dfdfdfdf"
         ];
         
 
@@ -146,20 +146,48 @@ class ChangePassword implements RequestHandlerInterface
         $conf = $this->config->toArray();
         $registry = $this->registry;
         $userid = $registry->getAuth();
-        // $userPassword = $registry->getAuthCredential();
+        $userPassword = $registry->getAuthCredential();
+
+        // output if all below checks pass
+        $output = true;
+        $this->reason = "";
+        $this->status = 200;
         
        
+        // check if the username is the correct username... users can only change their own passwords right?
+        if ($userid !== $user){
+            $this->reason = "You can't change password for user ".$user.". Please enter your own correct username.";
+            $this->status = (int) 403;
+            $output = false;
+            return;
+        }
+        
         // Check for users that cannot change their passwords.
         if (in_array($userid, $conf['user']['refused'])) {
             $this->reason = "You can't change password for user ".$user."";
             $this->status = (int) 403;
-            return false;
+            $output = false;
+            return;
+        }   
+        
+        // Check that oldpassword is current password
+        if ($userPassword !== $currentPassword) {
+            $this->reason = "Please enter your current password correctly";
+            $this->status = (int) 404;
+            $output = false;
+            return;
         }
-        else{
-            $this->reason = "";
-            $this->status = (int) 200;
-            return true;
+
+        // Check that the new password is typed correctly
+        if ($newPassword !== $confirmPassword){
+            $this->reason = "Please enter your new password correctly";
+            $this->status = (int) 404;
+            $output = false;
+            return;
         }
+        
+
+        return $output;
 
         // other checks are in basic.php, will try to take over as many as possible
        
