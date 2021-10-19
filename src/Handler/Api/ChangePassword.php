@@ -71,7 +71,7 @@ class ChangePassword implements RequestHandlerInterface
         
         // testing request object
         $testObjectFromRequest = [
-            "username" => "administrator",
+            "username" => "rafael",
             "oldPassword" => "bullshit123",
             "newPassword" => "test123",
             "newPasswordConfirm" => "test123"
@@ -150,8 +150,8 @@ class ChangePassword implements RequestHandlerInterface
         
        
         // Check for users that cannot change their passwords.
-        if (in_array($user, $conf['user']['refused'])) {
-            $this->reason = "You can't change password for user ".$userid."";
+        if (in_array($userid, $conf['user']['refused'])) {
+            $this->reason = "You can't change password for user ".$user."";
             $this->status = (int) 403;
             return false;
         }
