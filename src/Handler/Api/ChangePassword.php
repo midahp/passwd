@@ -74,7 +74,7 @@ class ChangePassword implements RequestHandlerInterface
             "username" => "charles",
             "oldPassword" => "test123",
             "newPassword" => "test123",
-            "newPasswordConfirm" => "dfdfdfdf"
+            "newPasswordConfirm" => "dfdfdf"
         ];
         
 
@@ -146,7 +146,8 @@ class ChangePassword implements RequestHandlerInterface
         $conf = $this->config->toArray();
         $registry = $this->registry;
         $userid = $registry->getAuth();
-        $userPassword = $registry->getAuthCredential();
+        $credentials = $registry->getAuthCredential();
+        $userPassword = (string) $credentials['password'];
 
         // output if all below checks pass
         $output = true;
@@ -171,7 +172,9 @@ class ChangePassword implements RequestHandlerInterface
         }   
         
         // Check that oldpassword is current password
-        if ($userPassword !== $currentPassword) {
+        // print_r($userPassword);
+
+        if ($currentPassword !== $userPassword) {
             $this->reason = "Please enter your current password correctly";
             $this->status = (int) 404;
             $output = false;
@@ -180,7 +183,7 @@ class ChangePassword implements RequestHandlerInterface
 
         // Check that the new password is typed correctly
         if ($newPassword !== $confirmPassword){
-            $this->reason = "Please enter your new password correctly";
+            $this->reason = "Please make sure you enter your new password correctly";
             $this->status = (int) 404;
             $output = false;
             return;
