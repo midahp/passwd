@@ -35,9 +35,7 @@ class ChangePassword implements RequestHandlerInterface
 
     // this is for testing and should be removed
     protected Horde_Session $session;
-    
 
-g
    
     public function __construct(
         Horde_Session $session, // this is for testing and should be removed
