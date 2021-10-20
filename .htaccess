@@ -1,0 +1,4 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule "^react/?$"  ../horde/rampage.php [QSA,L]
+</IfModule>
