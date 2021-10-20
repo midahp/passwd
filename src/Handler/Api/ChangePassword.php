@@ -7,10 +7,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use \Passwd_Factory_Driver as Factorydriver;
 use \Passwd_Driver as Driver;
 use \Horde\Core\Config\State as Configuration;
 use \Horde_Registry;
 use \Horde_Auth;
+use \Horde_Auth_Exception;
 
 
 /**
@@ -22,6 +24,7 @@ class ChangePassword implements RequestHandlerInterface
     protected ResponseFactoryInterface $responseFactory;
     protected StreamFactoryInterface $streamFactory;
     private Driver $driver;
+    private Factorydriver $backendchecker;
     public Configuration $config;
     private Horde_Registry $registry;
     public $reason;
@@ -34,6 +37,7 @@ class ChangePassword implements RequestHandlerInterface
         ResponseFactoryInterface $responseFactory,
         StreamFactoryInterface $streamFactory,
         Driver $driver,
+        Factorydriver $backendchecker,
         Configuration $config,
         Horde_Registry $registry 
     )
@@ -41,6 +45,7 @@ class ChangePassword implements RequestHandlerInterface
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $this->driver = $driver;
+        $this->backendchecker = $backendchecker;
         $this->config = $config;
         $this->registry = $registry;
     }
@@ -57,10 +62,10 @@ class ChangePassword implements RequestHandlerInterface
          */
         //    // testing request object
         //    $testObjectFromRequest = [
-        //     "username" => "charles",
+        //     "username" => "administrator",
         //     "oldPassword" => "test123",
-        //     "newPassword" => "test123",
-        //     "newPasswordConfirm" => "test123"
+        //     "newPassword" => "test1234",
+        //     "newPasswordConfirm" => "test1234"
         // ];
         // $testObjectFromRequest = json_encode($testObjectFromRequest);
         // $post = json_decode($testObjectFromRequest);
@@ -78,11 +83,9 @@ class ChangePassword implements RequestHandlerInterface
             try {
                 $this->driver->changePassword($user, $currentPassword, $newPassword);
                 $jsonData['success'] = true;
-                // $jsonData['statuscode'] = $this->status;
             } catch (\Throwable $th) {
                 $jsonData['message'] = $th->getMessage();
                 $jsonData['success'] = false;
-                // $jsonData['statuscode'] = 404;
             }
         }
          else  {
@@ -91,21 +94,15 @@ class ChangePassword implements RequestHandlerInterface
             
         }
 
-        
-
         $jsonString = json_encode($jsonData);
 
-        
         // sending the response object
         $body = $this->streamFactory->createStream($jsonString);
         $response = $this->responseFactory->createResponse($this->status, $this->reason)->withBody($body)
         ->withHeader('Content-Type', 'application/json')
         ->withStatus($this->status, $this->reason);
 
-        // For debuggin use: \Horde::debug($response, '/dev/shm/test2', false);
         return $response;
-
-        
     }
     
     /**
@@ -118,7 +115,7 @@ class ChangePassword implements RequestHandlerInterface
           
         
         $conf = $this->config->toArray();
-        $registry = $this->registry;
+        $registry = $this->registry; // important: with each reload this shoud load again...
         $userid = $registry->getAuth();
         $credentials = $registry->getAuthCredential();
         $userPassword = (string) $credentials['password'];
@@ -127,6 +124,11 @@ class ChangePassword implements RequestHandlerInterface
         $output = true;
         $this->reason = "";
         $this->status = 200;
+
+        // loading backendinfos
+        $backend = $this->backendchecker->__get('backends');
+        $backend = $backend['hordeauth'];
+        // \Horde::debug($backend["minLength"], '/dev/shm/test1', false);
         
        
         // check if the username is the correct username... users can only change their own passwords right?
@@ -147,7 +149,7 @@ class ChangePassword implements RequestHandlerInterface
         
         // Check that oldpassword is current password
         if ($currentPassword !== $userPassword) {
-            $this->reason = "Please enter your current password correctly";
+            $this->reason = "Please enter your current password correctly ".$userPassword;
             $this->status = (int) 404;
             $output = false;
             return;
@@ -169,43 +171,28 @@ class ChangePassword implements RequestHandlerInterface
             return;
         }
 
-        // OTHER TESTS FROM BASIC.PHP NOT YET IMPLEMENTED (WILL IMPLEMENT AS MANY AS POSSIBLE AND AS IS USEFULL)
-        // $b_ptr = $this->_backends[$backend_key];
+                        
+        // Check for password policies
+        try {
+            Horde_Auth::checkPasswordPolicy($newPassword, isset($backend['policy']) ? $backend['policy'] : array());
+        } catch (Horde_Auth_Exception $e) {
+            $this->status = 404;
+            $this->reason = (string) $e; //this shows the whole error message and should maybe be done differently
+            $output = false;
+            return;
+        }
 
-        // try {
-        //     Horde_Auth::checkPasswordPolicy($this->_vars->newpassword0, isset($b_ptr['policy']) ? $b_ptr['policy'] : array());
-        // } catch (Horde_Auth_Exception $e) {
-        //     $notification->push($e, 'horde.warning');
-        //     return;
-        // }
-
-        // // Do some simple strength tests, if enabled in the config file.
-        // if (!empty($conf['password']['strengthtests'])) {
-        //     try {
-        //         Horde_Auth::checkPasswordSimilarity($this->_vars->newpassword0, array($this->_userid, $this->_vars->oldpassword));
-        //     } catch (Horde_Auth_Exception $e) {
-        //         $notification->push($e, 'horde.warning');
-        //         return;
-        //     }
-        // }     $b_ptr = $this->_backends[$backend_key];
-
-        // try {
-        //     Horde_Auth::checkPasswordPolicy($this->_vars->newpassword0, isset($b_ptr['policy']) ? $b_ptr['policy'] : array());
-        // } catch (Horde_Auth_Exception $e) {
-        //     $notification->push($e, 'horde.warning');
-        //     return;
-        // }
-
-        // // Do some simple strength tests, if enabled in the config file.
-        // if (!empty($conf['password']['strengthtests'])) {
-        //     try {
-        //         Horde_Auth::checkPasswordSimilarity($this->_vars->newpassword0, array($this->_userid, $this->_vars->oldpassword));
-        //     } catch (Horde_Auth_Exception $e) {
-        //         $notification->push($e, 'horde.warning');
-        //         return;
-        //     }
-        // }
-
+        // Do some simple strength tests, if enabled in the config file.
+        if (!empty($conf['password']['strengthtests'])) {
+            try {
+                Horde_Auth::checkPasswordSimilarity($newPassword, array($userid, $currentPassword));
+            } catch (Horde_Auth_Exception $e) {
+                $this->status = 404;
+                $this->reason = (string) $e; //this shows the whole error message and should maybe be done differently
+                $output = false;
+                return;
+            }
+        }     
         return $output;
     }
 }
