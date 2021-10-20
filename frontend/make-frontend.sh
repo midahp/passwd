@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+cd "$SCRIPTPATH"
 source .env
 
 url="${GITLAB_API_URL}/projects/${FRONTEND_PROJECT_ID}/packages/generic/production_build/${FRONTEND_VERSION}/build.tar.gz"
@@ -9,4 +12,7 @@ curl --header "PRIVATE-TOKEN: ${FRONTEND_PAT}" "$url" | tar zxf - || (echo "Did 
 
 if [ $? -eq 0 ]; then
     cp build/index.html ../templates/react-init.html.php
+    [ -d ../react ] && rm -r ../react
+    mkdir -p ../react
+    cp -r build/* ../react/
 fi

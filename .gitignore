@@ -37,3 +37,6 @@ run-tests.log
 /config/*-*.php
 
 /templates/react-init.html.php
+
+
+/react/*
