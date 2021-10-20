@@ -10,7 +10,6 @@ use Psr\Http\Message\StreamFactoryInterface;
 use \Passwd_Driver as Driver;
 use \Horde\Core\Config\State as Configuration;
 use \Horde_Registry;
-use \Horde_Auth;
 
 
 /**
@@ -22,10 +21,12 @@ class ChangePassword implements RequestHandlerInterface
     protected ResponseFactoryInterface $responseFactory;
     protected StreamFactoryInterface $streamFactory;
     private Driver $driver;
-    public Configuration $config;
+    private Configuration $config;
     private Horde_Registry $registry;
-    public $reason;
-    public $status;
+
+
+    // this is for testing and should be removed
+    protected Horde_Session $session;
     
 
 
@@ -35,7 +36,7 @@ class ChangePassword implements RequestHandlerInterface
         StreamFactoryInterface $streamFactory,
         Driver $driver,
         Configuration $config,
-        Horde_Registry $registry 
+        Horde_Registry $registry
     )
     {
         $this->responseFactory = $responseFactory;
