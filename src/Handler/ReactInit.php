@@ -11,6 +11,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 use \Horde_Variables;
 use \Horde_Session;
 use \Horde_View;
+use \Horde_PageOutput;
 
 class ReactInit implements RequestHandlerInterface
 {
@@ -18,18 +19,21 @@ class ReactInit implements RequestHandlerInterface
     protected StreamFactoryInterface $streamFactory;
     protected Horde_Variables $vars;
     protected Horde_Session $session;
+    protected Horde_PageOutput $page_output;
 
     public function __construct(
         ResponseFactoryInterface $responseFactory,
         StreamFactoryInterface $streamFactory,
         Horde_Variables $vars,
-        Horde_Session $session
+        Horde_Session $session,
+        Horde_PageOutput $page_output
     )
     {
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $this->vars = $vars;
         $this->session = $session;
+        $this->page_output = $page_output;
     }
 
     /**
@@ -49,7 +53,14 @@ class ReactInit implements RequestHandlerInterface
             'templatePath' => PASSWD_TEMPLATES
         ));
         $view->jsGlobals = json_encode($jsGlobals);
-        $body = $this->streamFactory->createStream($view->render('react-init'));
+        $this->page_output->addScriptFile("1main.js");
+        $this->page_output->addScriptFile("2chunk.js");
+
+        
+        $output = $view->render('react-init');
+        $this->page_output->footer();
+
+        $body = $this->streamFactory->createStream($output);
         return $this->responseFactory->createResponse(200)->withBody($body);
     }
 
