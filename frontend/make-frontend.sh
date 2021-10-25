@@ -16,3 +16,5 @@ if [ $? -eq 0 ]; then
     mkdir -p ../react
     cp -r build/* ../react/
 fi
+
+echo 'RewriteRule "^/?$"  ../../horde/rampage.php [QSA,L]' >> ../react/.htaccess
