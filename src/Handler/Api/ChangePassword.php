@@ -55,26 +55,16 @@ class ChangePassword implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        
-            
-        /**
-         * For testing the code, uncommented code below and comment the line "$post = $request->getParsedBody();"
-         */
-        //    // testing request object
-        //    $testObjectFromRequest = [
-        //     "username" => "administrator",
-        //     "oldPassword" => "test123",
-        //     "newPassword" => "test1234",
-        //     "newPasswordConfirm" => "test1234"
-        // ];
-        // $testObjectFromRequest = json_encode($testObjectFromRequest);
-        // $post = json_decode($testObjectFromRequest);
-        
+       
         $post = $request->getParsedBody();
-        $user = $post->username;
-        $currentPassword = $post->oldPassword;
-        $newPassword = $post->newPassword;
-        $confirmPassword = $post->newPasswordConfirm;
+        $post = json_encode($post);
+        $post = json_decode($post);
+
+        $user = $post->userid;
+        \Horde::debug($user, '/dev/shm/test2', false);
+        $currentPassword = $post->oldpassword;
+        $newPassword = $post->newpassword0;
+        $confirmPassword = $post->newpassword1;
 
         $jsonData = ['success' => false, 'message' => ''];
 
@@ -148,12 +138,12 @@ class ChangePassword implements RequestHandlerInterface
         }   
         
         // Check that oldpassword is current password
-        if ($currentPassword !== $userPassword) {
-            $this->reason = "Please enter your current password correctly ".$userPassword;
-            $this->status = (int) 404;
-            $output = false;
-            return;
-        }
+        // if ($currentPassword !== $userPassword) {
+        //     $this->reason = "Please enter your current password correctly ";
+        //     $this->status = (int) 404;
+        //     $output = false;
+        //     return;
+        // }
 
         // check that new password is different from old password
         if ($currentPassword == $newPassword) {

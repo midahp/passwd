@@ -1,4 +1,5 @@
-<form method="post" action="<?php echo $this->escape($this->url) ?>" id="passwd" name="passwd">
+<!-- <form method="post" action="<?php echo $this->escape($this->url) ?>" id="passwd" name="passwd"> -->
+<form method="post" action="/passwd/api/changepw" id="passwd" name="passwd"> 
 <?php echo $this->formInput ?>
 <?php if (!$this->showlist): ?>
 <input type="hidden" name="backend" value="<?php echo $this->backend ?>" />
