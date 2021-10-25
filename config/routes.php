@@ -10,15 +10,15 @@ use Horde\Passwd\Handler\ReactInit;
 use Horde\Passwd\Handler\Api\ChangePassword;
 
 $mapper->connect(
-    'Api',
+    'ChangePassword',
     '/api/changepw',
     [
         'controller' => ChangePassword::class,
         'stack' => [
             AuthHordeSession::class,
             DemandAuthenticatedUser::class,
-            DemandSessionToken::class,
-        ],
+            // DemandSessionToken::class,
+        ]
     ]
 );
 
