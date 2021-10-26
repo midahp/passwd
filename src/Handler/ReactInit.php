@@ -47,18 +47,23 @@ class ReactInit implements RequestHandlerInterface
             'url' => $this->vars->return_to,
             'userid' => $userid,
             'sessionToken' => $this->session->getToken(),
+            'languageKey' => 'de' //this is needed otherwise error "thisGlobal.horde.languageKey is not defined": 
         ];
 
+        
         $view = new Horde_View(array(
             'templatePath' => PASSWD_TEMPLATES
         ));
         $view->jsGlobals = json_encode($jsGlobals);
-        $this->page_output->addScriptFile("1main.js");
-        $this->page_output->addScriptFile("2chunk.js");
+        
 
         
+        // $this->page_output->addScriptFile("3run.js");
+        // $this->page_output->addScriptFile("main.js");
+        // $this->page_output->addScriptFile("chunk.js");
+        $this->page_output->footer(); //without the footer js will not be included. Question: where is the js? I cannot see where it is loaded although it is loaded
+
         $output = $view->render('react-init');
-        $this->page_output->footer();
 
         $body = $this->streamFactory->createStream($output);
         return $this->responseFactory->createResponse(200)->withBody($body);
