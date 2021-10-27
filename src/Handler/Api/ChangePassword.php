@@ -56,15 +56,13 @@ class ChangePassword implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
        
-        $post = $request->getParsedBody();
-        $post = json_encode($post);
-        $post = json_decode($post);
-
-        $user = $post->userid;
-        \Horde::debug($user, '/dev/shm/test2', false);
-        $currentPassword = $post->oldpassword;
-        $newPassword = $post->newpassword0;
-        $confirmPassword = $post->newpassword1;
+        $rawInput = $request->getBody()->getContents();
+        $post = json_decode($rawInput);
+        
+        $user = $post->username;
+        $currentPassword = $post->oldPassword;
+        $newPassword = $post->newPassword;
+        $confirmPassword = $post->newPasswordConfirm;
 
         $jsonData = ['success' => false, 'message' => ''];
 
