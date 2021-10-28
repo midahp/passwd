@@ -8,6 +8,7 @@ use Horde\Core\Middleware\DemandSessionToken;
 
 use Horde\Passwd\Handler\ReactInit;
 use Horde\Passwd\Handler\Api\ChangePassword;
+use Horde\Passwd\Middleware\Ui;
 
 $mapper->connect(
     'ChangePassword',
@@ -21,15 +22,17 @@ $mapper->connect(
         ]
     ]
 );
-
 $mapper->connect(
-    'ReactInit',
-    '/react',
+    'UI',
+    '/index.php',
     [
-        'controller' => ReactInit::class,
-        'stack' => [
-            AuthHordeSession::class,
-            RedirectToLogin::class,
-        ]
+        'controller' => Ui::class
+    ]
+);
+$mapper->connect(
+    'Index',
+    '/',
+    [
+        'controller' => Ui::class
     ]
 );
