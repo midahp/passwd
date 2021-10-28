@@ -33,26 +33,24 @@
 // $page_output->footer();
 
 /**
- * NEW PASSWD...? So no URL issues?
+ * NEW PASSWD...
  */
+// $pathHelper = $GLOBALS['injector']->getInstance(\Passwd_PathHelper::class);
+// $root = $pathHelper->ttWebroot();
 
 require_once __DIR__ . '/lib/Application.php';
 Horde_Registry::appInit('passwd');
 
+$session = $GLOBALS['injector']->getInstance(\Horde_Session::class);
+$registry = $GLOBALS['injector']->getInstance(\Horde_Registry::class);
 
-
-print_r("right..");
-
-// just testing around while looking at timetool index.php
-// $pathHelper = $GLOBALS['injector']->getInstance(\Passwd_PathHelper::class);
-// $root = $pathHelper->ttWebroot();
-
-// print_r("test: ".$root);
 $jsGlobals = [
-    'url' => $_vars->return_to,
-    'userid' => $_userid,
-    'sessionToken' => "test",//$_session->getToken(),
-    'languageKey' => 'de' //this is needed otherwise error "thisGlobal.horde.languageKey is not defined": 
+    'appMode' => "horde",
+    'sessionToken' => $session->getToken(),
+    'currentAppp' => "passwd",
+    'userUid' => $userid,
+    'appWebroot' => "/passwd",
+    'languageKey' => 'de_DE' //this is needed otherwise error "thisGlobal.horde.languageKey is not defined": 
 ];
 
 $view = new Horde_View(array(
@@ -61,9 +59,9 @@ $view = new Horde_View(array(
 
 $view->jsGlobals = json_encode($jsGlobals);
 
-$page_output->addScriptFile("main.js");
-$page_output->addScriptFile("chunk.js");
-$page_output->footer();
+// $page_output->addScriptFile("main.js");
+// $page_output->addScriptFile("chunk.js");
+// $page_output->footer();
 
 $output = $view->render('react-init'); //looks in tempalte folder and finds react-init.... file
 
