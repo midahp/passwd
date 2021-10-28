@@ -2,19 +2,20 @@
 /**
  * Main passwd script.
  *
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2021 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (GPL). If you
  * did not receive this file, see http://www.horde.org/licenses/gpl.
  *
  * @author    Michael Slusarz <slusarz@horde.org>
+ * @author    Ralf Lang <lang@b1-systems.de>
  * @category  Horde
- * @copyright 2002-2017 Horde LLC
+ * @copyright 2002-2021 Horde LLC
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   Passwd
  */
 require_once __DIR__ . '/lib/Application.php';
-Horde_Registry::appInit('passwd', array('nodynamicinit' => true));
+Horde_Registry::appInit('passwd');
 global $registry;
 global $prefs;
 $ui = $prefs->getValue('dynamic_ui');
@@ -25,13 +26,16 @@ if ($dynamic && $ui == 'material') {
     $registry = $GLOBALS['injector']->getInstance(\Horde_Registry::class);
     
     $jsGlobals = [
-        'appMode' => "horde",
+        'appMode' => 'horde',
         'sessionToken' => $session->getToken(),
-        'currentAppp' => "passwd",
-        'userUid' => $userid,
-        'appWebroot' => "/passwd",
-        'languageKey' => 'de_DE' 
+        'currentApp' => $registry->getApp(),
+        'userUid' => $registry->getAuth(),
+        'apps' => $registry->listApps(null, true),
+        // TODO: Apps always show their English name
+        'appWebroot' => $registry->get('webroot', 'passwd'),
+        'languageKey' => $registry->preferredLang()
     ];
+
     $view = new Horde_View(array(
         'templatePath' => PASSWD_TEMPLATES
     ));
