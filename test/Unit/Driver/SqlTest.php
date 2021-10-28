@@ -48,11 +48,9 @@ class SqlTest extends PasswdTestCase
         $this->assertInstanceOf('Passwd_Driver', $this->driver);
     }
 
-    /**
-     * @expectedException Passwd_Exception
-     */
     public function testChangePasswordFailsForNonexistingUser()
     {
+        $this->expectException(\Passwd_Exception::class);
         $res = $this->driver->changePassword('Patricia', 'alt', 'neu');
     }
 
