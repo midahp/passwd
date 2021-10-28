@@ -1,25 +1,31 @@
 <?php
+namespace Horde\Passwd\Test\Unit\Driver;
+use \Horde\Passwd\Test\PasswdTestCase;
+use \Horde_Db_Adapter_Pdo_Sqlite;
+use \Passwd_Factory_Driver;
+use \Passwd_Driver_Sql;
+use \Horde_Test_Setup;
 /**
  * Test the Sql backend driver.
  *
  * @author     Ralf Lang <lang@b1-systems.de>
  * @category   Horde
- * @copyright  2013 Horde LLC
+ * @copyright  2013-2021 Horde LLC
  * @internal
  * @package    Passwd
  * @subpackage UnitTests
  */
-class Passwd_Unit_Driver_SqlTest extends Passwd_TestCase
+class SqlTest extends PasswdTestCase
 {
     private $driver;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::createBasicPasswdSetup(new Horde_Test_Setup());
         parent::setUpBeforeClass();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $GLOBALS['injector'] = $this->getInjector();
         $factory = new Passwd_Factory_Driver($this->getInjector());
