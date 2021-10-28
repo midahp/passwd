@@ -68,4 +68,3 @@ $page_output->footer();
 $output = $view->render('react-init'); //looks in tempalte folder and finds react-init.... file
 
 echo $output;
-
