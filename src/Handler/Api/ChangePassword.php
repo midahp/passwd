@@ -7,17 +7,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use \Passwd_Factory_Driver as Factorydriver;
 use \Passwd_Driver as Driver;
 use \Horde\Core\Config\State as Configuration;
 use \Horde_Registry;
-
-
-
-
-
-
-// this is for testing and should be removed
-use \Horde_Session;
+use \Horde_Auth;
+use \Horde_Auth_Exception;
 
 
 /**
@@ -29,30 +24,30 @@ class ChangePassword implements RequestHandlerInterface
     protected ResponseFactoryInterface $responseFactory;
     protected StreamFactoryInterface $streamFactory;
     private Driver $driver;
-    private Configuration $config;
+    private Factorydriver $backendchecker;
+    public Configuration $config;
     private Horde_Registry $registry;
+    public $reason;
+    public $status;
+    
 
-
-    // this is for testing and should be removed
-    protected Horde_Session $session;
 
    
     public function __construct(
-        Horde_Session $session, // this is for testing and should be removed
         ResponseFactoryInterface $responseFactory,
         StreamFactoryInterface $streamFactory,
         Driver $driver,
+        Factorydriver $backendchecker,
         Configuration $config,
-        Horde_Registry $registry
+        Horde_Registry $registry 
     )
     {
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $this->driver = $driver;
+        $this->backendchecker = $backendchecker;
         $this->config = $config;
         $this->registry = $registry;
-        // below is for testing and should be removed
-        $this->session = $session;
     }
 
     /**
@@ -60,61 +55,46 @@ class ChangePassword implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+       
+        $rawInput = $request->getBody()->getContents();
+        $post = json_decode($rawInput);
         
-        // fertig? mach unittests für den Controller (probleme mit Globals? Mach Mock vom Inhalt von Globals)
+        // Das habe ich noch im Frontend angepasst dazu: fetch("api/changepw",{method:"POST",headers:{"Horde-Session-Token":globalThis.horde.sessionToken,"Accept":"application/json","Content-Type":"multipart/form-data"},body:JSON.stringify(t)}).then((function(e){return e.json()})).then((function(e){return console.log(e)})).catch((function(e){console.log(e)})))}
         
-        
-        // testing request object
-        $testObjectFromRequest = [
-            "username" => "string",
-            "oldPassword" => "string",
-            "newPassword" => "string",
-            "newPasswordConfirm" => "string"
-        ];
-        
-
-        $testObjectFromRequest = json_encode($testObjectFromRequest);
-
-        $token = (string) $this->session->getToken();
-
-
-        
-        $post = $request->getParsedBody();
-        $user = $post['username'];
-        $currentPassword = $post['oldPassword'];
-        $newPassword = $post['newPassword'];
-        $confirmPassword = $post['newPasswordConfirm'];
+        $user = $post->username;
+        $currentPassword = $post->oldPassword;
+        $newPassword = $post->newPassword;
+        $confirmPassword = $post->newPasswordConfirm;
 
         $jsonData = ['success' => false, 'message' => ''];
 
-
-        try {
-            $this->verifyPassword($user, $confirmPassword, $currentPassword, $newPassword);
-            $this->driver->changePassword($user, $currentPassword, $newPassword);
-            $jsonData['success'] = true;
-        } catch (\Throwable $th) {
-            //throw $th;
-            $jsonData['message'] = $th->getMessage();
+        if ($this->verifyPassword($user, $confirmPassword, $currentPassword, $newPassword)) {
+            
+            try {
+                $this->driver->changePassword($user, $currentPassword, $newPassword);
+                $jsonData['success'] = true;
+            } catch (\Throwable $th) {
+                $jsonData['message'] = $th->getMessage();
+                $jsonData['success'] = false;
+            }
+        }
+         else  {
+            $jsonData['message'] = $this->reason;
+            $jsonData['success'] = false;
+            
         }
 
         $jsonString = json_encode($jsonData);
 
-        /**
-        * This is the code that I want to use for the real app. Currently it is commented, because Im testing with the code blow
-        */ 
-        // $body = $this->streamFactory->createStream($jsonString);
-        // return $this->responseFactory->createResponse(200)->withBody($body)->withHeader('Content-Type', 'application/json');
-    
-        $userid = $this->registry->getAuth();
-        $userid = $this->registry->getAuthInfo();
-        $conf = $this->config;
+        // sending the response object
+        $body = $this->streamFactory->createStream($jsonString);
+        $response = $this->responseFactory->createResponse($this->status, $this->reason)->withBody($body)
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus($this->status, $this->reason);
 
-        // testing request object
-        $body = $this->streamFactory->createStream(print_r($userid));
-        return $this->responseFactory->createResponse(200)->withBody($body)->withHeader('Horde-Session-Token', $token)->withAddedHeader('Content-Type', 'application/json');
-        
+        return $response;
     }
-
+    
     /**
      * @param string $backend_key  Backend key.
      */
@@ -123,28 +103,86 @@ class ChangePassword implements RequestHandlerInterface
         
         // Implementiere Checks von basic.php: Extra Notizen mit was noch angepasst werden muss (TODO) (auf English)
           
-        $notification = $this->notification;
-        $conf = $this->config;
-        $registry = $this->registry;
+        
+        $conf = $this->config->toArray();
+        $registry = $this->registry; // important: with each reload this shoud load again...
         $userid = $registry->getAuth();
-        $userPassword = $registry->getAuthCredential();
-        
-        
+        $credentials = $registry->getAuthCredential();
+        $userPassword = (string) $credentials['password'];
 
-        // THIS SHOULD BE DONE BY MIDDLEWARE?
+        // output if all below checks pass
+        $output = true;
+        $this->reason = "";
+        $this->status = 200;
 
+        // loading backendinfos
+        $backend = $this->backendchecker->__get('backends');
+        $backend = $backend['hordeauth'];
+        // \Horde::debug($backend["minLength"], '/dev/shm/test1', false);
+        
+       
+        // check if the username is the correct username... users can only change their own passwords right?
+        if ($userid !== $user){
+            $this->reason = "You can't change password for user ".$user.". Please enter your own correct username.";
+            $this->status = (int) 403;
+            $output = false;
+            return;
+        }
+        
         // Check for users that cannot change their passwords.
         if (in_array($userid, $conf['user']['refused'])) {
-            $notification->push(sprintf(_("You can't change password for user %s"), $userid), 'horde.error');
-            return false;
+            $this->reason = "You do dont have permission to change password as user ".$user."";
+            $this->status = (int) 403;
+            $output = false;
+            return;
+        }   
+        
+        // Check that oldpassword is current password
+        // if ($currentPassword !== $userPassword) {
+        //     $this->reason = "Please enter your current password correctly ";
+        //     $this->status = (int) 404;
+        //     $output = false;
+        //     return;
+        // }
+
+        // check that new password is different from old password
+        if ($currentPassword == $newPassword) {
+            $this->reason = "Please enter a different password";
+            $this->status = (int) 404;
+            $output = false;
+            return;
         }
 
-        // other checks are in basic.php, will try to take over as many as possible
+        // Check that the new password is typed correctly
+        if ($newPassword !== $confirmPassword){
+            $this->reason = "Please make sure you enter your new password correctly";
+            $this->status = (int) 404;
+            $output = false;
+            return;
+        }
 
-        return;
+                        
+        // Check for password policies
+        try {
+            Horde_Auth::checkPasswordPolicy($newPassword, isset($backend['policy']) ? $backend['policy'] : array());
+        } catch (Horde_Auth_Exception $e) {
+            $this->status = 404;
+            $this->reason = (string) $e; //this shows the whole error message and should maybe be done differently
+            $output = false;
+            return;
+        }
 
-       
+        // Do some simple strength tests, if enabled in the config file.
+        if (!empty($conf['password']['strengthtests'])) {
+            try {
+                Horde_Auth::checkPasswordSimilarity($newPassword, array($userid, $currentPassword));
+            } catch (Horde_Auth_Exception $e) {
+                $this->status = 404;
+                $this->reason = (string) $e; //this shows the whole error message and should maybe be done differently
+                $output = false;
+                return;
+            }
+        }     
+        return $output;
     }
-
-     
 }
