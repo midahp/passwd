@@ -1,0 +1,21 @@
+{
+  "Change password": "Passwort ändern",
+  "Username": "Benutzername",
+  "Old password": "Altes Passwort",
+  "New password": "Neues Passwort",
+  "Confirm new password": "Neues Passwort wiederholen",
+  "confirm": "bestätigen",
+  "reset": "zurücksetzen",
+  "Old and new password must be different.": "Altes und neues Passwort müssen sich unterscheiden.",
+  "Password cannot have leading or trailing spaces.": "Passwort darf keine führenden oder nachgestellten Leerzeichen enthalten.",
+  "Password needs to be at least 8 characters long.": "Passwort muss mindestens 8 Zeichen lang sein.",
+  "Password must contain at least one letter and one number.": "Passwort muss mindestens einen Buchstaben und eine Zahl enthalten.",
+  "Passwords do not match.": "Passwörter stimmen nicht überein.",
+  "Is required.": "Muss ausgefüllt werden.",
+  "Username of the user whose password you want to change.": "Benutzername vom Benutzer, dessen Passwort Sie ändern möchten.",
+  "Old password of the user whose password you want to change.": "Altes Passwort vom Benutzer, dessen Passwort Sie ändern möchten",
+  "New password of the user whose password you want to change.": "Neues Passwort vom Benutzer, dessen Passwort Sie ändern möchten.",
+  "Confirm the new password.": "Wiederholen Sie das neue Passwort.",
+  "German": "Deutsch",
+  "English": "Englisch"
+}
