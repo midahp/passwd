@@ -56,15 +56,15 @@ class ChangePassword implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
        
-        $post = $request->getParsedBody();
-        $post = json_encode($post);
-        $post = json_decode($post);
-
-        $user = $post->userid;
-        \Horde::debug($user, '/dev/shm/test2', false);
-        $currentPassword = $post->oldpassword;
-        $newPassword = $post->newpassword0;
-        $confirmPassword = $post->newpassword1;
+        $rawInput = $request->getBody()->getContents();
+        $post = json_decode($rawInput);
+        
+        // Das habe ich noch im Frontend angepasst dazu: fetch("api/changepw",{method:"POST",headers:{"Horde-Session-Token":globalThis.horde.sessionToken,"Accept":"application/json","Content-Type":"multipart/form-data"},body:JSON.stringify(t)}).then((function(e){return e.json()})).then((function(e){return console.log(e)})).catch((function(e){console.log(e)})))}
+        
+        $user = $post->username;
+        $currentPassword = $post->oldPassword;
+        $newPassword = $post->newPassword;
+        $confirmPassword = $post->newPasswordConfirm;
 
         $jsonData = ['success' => false, 'message' => ''];
 
