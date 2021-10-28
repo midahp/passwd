@@ -13,56 +13,44 @@
  * @license   http://www.horde.org/licenses/gpl GPL
  * @package   Passwd
  */
-
-// OLD PASSWD
-// require_once __DIR__ . '/lib/Application.php';
-// Horde_Registry::appInit('passwd');
-
-// $ob = new Passwd_Basic($injector->getInstance('Horde_Variables'));
-
-// $status = $ob->status();
-
-// $page_output->header(array(
-//     'title' => _("Change Password"),
-//     'view' => $registry::VIEW_BASIC
-// ));
-
-// echo $status;
-// $ob->render();
-
-// $page_output->footer();
-
-/**
- * NEW PASSWD...
- */
-// $pathHelper = $GLOBALS['injector']->getInstance(\Passwd_PathHelper::class);
-// $root = $pathHelper->ttWebroot();
-
 require_once __DIR__ . '/lib/Application.php';
-Horde_Registry::appInit('passwd');
+Horde_Registry::appInit('passwd', array('nodynamicinit' => true));
+global $registry;
+global $prefs;
+$ui = $prefs->getValue('dynamic_ui');
+$dynamic = $registry->getView() === Horde_Registry::VIEW_DYNAMIC;
 
-$session = $GLOBALS['injector']->getInstance(\Horde_Session::class);
-$registry = $GLOBALS['injector']->getInstance(\Horde_Registry::class);
+if ($dynamic && $ui == 'material') {
+    $session = $GLOBALS['injector']->getInstance(\Horde_Session::class);
+    $registry = $GLOBALS['injector']->getInstance(\Horde_Registry::class);
+    
+    $jsGlobals = [
+        'appMode' => "horde",
+        'sessionToken' => $session->getToken(),
+        'currentAppp' => "passwd",
+        'userUid' => $userid,
+        'appWebroot' => "/passwd",
+        'languageKey' => 'de_DE' 
+    ];
+    $view = new Horde_View(array(
+        'templatePath' => PASSWD_TEMPLATES
+    ));
+    $view->jsGlobals = json_encode($jsGlobals);
+    $output = $view->render('react-init');
+    echo $output;
+    exit;
+}
 
-$jsGlobals = [
-    'appMode' => "horde",
-    'sessionToken' => $session->getToken(),
-    'currentAppp' => "passwd",
-    'userUid' => $userid,
-    'appWebroot' => "/passwd",
-    'languageKey' => 'de_DE' //this is needed otherwise error "thisGlobal.horde.languageKey is not defined": 
-];
+$ob = new Passwd_Basic($injector->getInstance('Horde_Variables'));
 
-$view = new Horde_View(array(
-    'templatePath' => PASSWD_TEMPLATES
+$status = $ob->status();
+
+$page_output->header(array(
+    'title' => _("Change Password"),
+    'view' => $registry::VIEW_BASIC
 ));
 
-$view->jsGlobals = json_encode($jsGlobals);
+echo $status;
+$ob->render();
 
-// $page_output->addScriptFile("main.js");
-// $page_output->addScriptFile("chunk.js");
-// $page_output->footer();
-
-$output = $view->render('react-init'); //looks in tempalte folder and finds react-init.... file
-
-echo $output;
+$page_output->footer();
