@@ -1,14 +1,21 @@
 <?php
+namespace Horde\Passwd\Test;
+use \PHPUnit\Framework\TestCase;
+use \Horde_Injector;
+use \Horde_Injector_TopLevel;
+use \Horde_Test_Setup;
+use \Horde_Registry;
+
 /**
  * @author     Ralf Lang <lang@ralf-lang.de>
  * @category   Horde
- * @copyright  2013 Horde LLC
+ * @copyright  2013-2021 Horde LLC
  * @internal
  * @license    http://www.horde.org/licenses/gpl GPL
  * @package    Passwd
  * @subpackage UnitTests
  */
-class Passwd_TestCase extends PHPUnit_Framework_TestCase
+class PasswdTestCase extends TestCase
 {
     protected function getInjector()
     {

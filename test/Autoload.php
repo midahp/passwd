@@ -10,6 +10,6 @@
  * @subpackage UnitTests
  */
 
-Horde_Test_Autoload::addPrefix('Passwd', __DIR__ . '/../../lib');
+Horde_Test_Autoload::addPrefix('Passwd', __DIR__ . '/../lib');
 
 require_once __DIR__ . '/TestCase.php';

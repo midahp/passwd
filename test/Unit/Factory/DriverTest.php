@@ -1,4 +1,7 @@
 <?php
+namespace Horde\Passwd\Test\Unit\Factory;
+use \Horde\Passwd\Test\PasswdTestCase;
+use \Passwd_Factory_Driver;
 /**
  * Test the backend driver factory.
  *
@@ -10,11 +13,11 @@
  * @package    Passwd
  * @subpackage UnitTests
  */
-class Passwd_Unit_Factory_DriverTest extends Passwd_TestCase
+class DriverTest extends PasswdTestCase
 {
-    protected $_backends = array();
+    protected $_backends = [];
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->markTestIncomplete('Factories with configuration files don\'t work out of the box.');
         $this->_backends = array(

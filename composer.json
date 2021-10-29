@@ -1,5 +1,4 @@
 {
-    "minimum-stability": "dev",
     "name": "horde/passwd",
     "description": "Password changing application",
     "type": "horde-application",
@@ -17,7 +16,7 @@
             "role": "lead"
         }
     ],
-    "time": "2021-03-15",
+    "time": "2021-10-28",
     "repositories": [
         {
             "type": "composer",
@@ -25,22 +24,23 @@
         }
     ],
     "require": {
-        "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || *",
+        "horde/horde-installer-plugin": "*",
         "php": "^7.4 || ^8",
-        "horde/horde": "^6 || dev-FRAMEWORK_6_0",
-        "horde/auth": "^3 || dev-FRAMEWORK_6_0",
-        "horde/core": "^3 || dev-FRAMEWORK_6_0",
-        "horde/exception": "^3 || dev-FRAMEWORK_6_0",
-        "horde/injector": "^3 || dev-FRAMEWORK_6_0",
-        "horde/util": "^3 || dev-FRAMEWORK_6_0",
-        "horde/view": "^3 || dev-FRAMEWORK_6_0",
+        "horde/horde": "^6",
+        "horde/auth": "^3",
+        "horde/core": "^3",
+        "horde/exception": "^3",
+        "horde/injector": "^3",
+        "horde/util": "^3",
+        "horde/view": "^3",
         "ext-gettext": "*"
     },
+    "require-dev": {},
     "suggest": {
-        "horde/db": "^3 || dev-FRAMEWORK_6_0",
-        "horde/http": "^3 || dev-FRAMEWORK_6_0",
-        "horde/ldap": "^3 || dev-FRAMEWORK_6_0",
-        "horde/vfs": "^3 || dev-FRAMEWORK_6_0",
+        "horde/db": "^3",
+        "horde/http": "^3",
+        "horde/ldap": "^3",
+        "horde/vfs": "^3",
         "pear/crypt_chap": "^2",
         "ext-com": "*",
         "ext-ldap": "*",
@@ -52,6 +52,11 @@
         },
         "psr-4": {
             "Horde\\Passwd\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Horde\\Passwd\\Test\\": "test/"
         }
     }
 }
