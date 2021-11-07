@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Horde\Passwd\Middleware;
 
 use Horde;
@@ -11,7 +13,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use \Passwd_Basic;
+use Passwd_Basic;
 use Horde_Registry;
 use Horde_Session;
 use Horde_View;
@@ -27,15 +29,14 @@ class Ui implements MiddlewareInterface
     protected Horde_View $view;
 
     public function __construct(
-        ResponseFactoryInterface $responseFactory, 
+        ResponseFactoryInterface $responseFactory,
         StreamFactoryInterface $streamFactory,
         Horde_Injector $injector,
         Horde_Registry $registry,
         Horde_Session $session,
         Horde_PageOutput $page_output,
         Horde_View $view
-    )
-    {
+    ) {
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $this->injector = $injector;
@@ -53,7 +54,7 @@ class Ui implements MiddlewareInterface
         if ($dynamic && $ui == 'material') {
             $session = $GLOBALS['injector']->getInstance(\Horde_Session::class);
             $registry = $GLOBALS['injector']->getInstance(\Horde_Registry::class);
-            
+
             $jsGlobals = [
                 'appMode' => 'horde',
                 'sessionToken' => $session->getToken(),
@@ -62,24 +63,24 @@ class Ui implements MiddlewareInterface
                 'apps' => $registry->listApps(null, true),
                 // TODO: Apps always show their English name
                 'appWebroot' => $registry->get('webroot', 'passwd'),
-                'languageKey' => $registry->preferredLang()
+                'languageKey' => $registry->preferredLang(),
             ];
-        
+
             $this->view->jsGlobals = json_encode($jsGlobals);
             $output = $this->view->render('react-init');
             $stream = $this->streamFactory->createStream($output);
             return $this->responseFactory->createResponse(200)->withBody($stream);
-            }
-        
+        }
+
         $ob = new Passwd_Basic($this->injector->getInstance('Horde_Variables'));
 
         $status = $ob->status();
 
         ob_start();
-        $this->page_output->header(array(
+        $this->page_output->header([
             'title' => _("Change Password"),
-            'view' => $this->registry::VIEW_BASIC
-        ));
+            'view' => $this->registry::VIEW_BASIC,
+        ]);
 
         echo $status;
         $ob->render();

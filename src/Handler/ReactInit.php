@@ -8,11 +8,10 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use \Horde_Variables;
-use \Horde_Session;
-use \Horde_View;
-use \Horde_PageOutput;
-
+use Horde_Variables;
+use Horde_Session;
+use Horde_View;
+use Horde_PageOutput;
 
 class ReactInit implements RequestHandlerInterface
 {
@@ -29,8 +28,7 @@ class ReactInit implements RequestHandlerInterface
         Horde_Variables $vars,
         Horde_Session $session,
         Horde_PageOutput $page_output
-    )
-    {
+    ) {
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $this->vars = $vars;
@@ -49,16 +47,16 @@ class ReactInit implements RequestHandlerInterface
             'url' => $this->vars->return_to,
             'userid' => $userid,
             'sessionToken' => $this->session->getToken(),
-            'languageKey' => 'de' //this is needed otherwise error "thisGlobal.horde.languageKey is not defined": 
+            'languageKey' => 'de', //this is needed otherwise error "thisGlobal.horde.languageKey is not defined":
         ];
 
-        
-        $view = new Horde_View(array(
-            'templatePath' => PASSWD_TEMPLATES
-        ));
-        
 
-        
+        $view = new Horde_View([
+            'templatePath' => PASSWD_TEMPLATES,
+        ]);
+
+
+
         // $this->page_output->addScriptFile("3run.js");
         $this->page_output->addScriptFile("main.js");
         $this->page_output->addScriptFile("chunk.js");
@@ -70,5 +68,4 @@ class ReactInit implements RequestHandlerInterface
 
         return $this->responseFactory->createResponse(200)->withBody($body);
     }
-
 }
