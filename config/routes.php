@@ -9,6 +9,7 @@ use Horde\Core\Middleware\DemandSessionToken;
 use Horde\Passwd\Handler\ReactInit;
 use Horde\Passwd\Handler\Api\ChangePassword;
 use Horde\Passwd\Middleware\Ui;
+use Horde\Passwd\Middleware\LocaleApi;
 
 $mapper->connect(
     'ChangePassword',
@@ -22,6 +23,22 @@ $mapper->connect(
         ]
     ]
 );
+
+$mapper->connect(
+    'Locale',
+    '/translation/:language/:namespace',
+    [
+        'language' => 'en',
+        'namespace' => 'translation',
+        'controller' => LocaleApi::class,
+        'stack' => [
+            AuthHordeSession::class,
+            DemandAuthenticatedUser::class,
+            // DemandSessionToken::class,
+        ],
+    ]
+);
+
 $mapper->connect(
     'UI',
     '/index.php',
@@ -31,7 +48,7 @@ $mapper->connect(
 );
 $mapper->connect(
     'Index',
-    '/',
+    '/*path',
     [
         'controller' => Ui::class
     ]

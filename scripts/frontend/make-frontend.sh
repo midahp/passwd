@@ -11,9 +11,5 @@ mkdir -p build
 curl --header "PRIVATE-TOKEN: ${FRONTEND_PAT}" "$url" | tar zxf - || (echo "Did you provide a valid FRONTEND_PAT"; exit 1)
 
 if [ $? -eq 0 ]; then
-    cp build/index.html ../templates/react-init.html.php
-    [ -d ../react ] && rm -r ../react
-    mkdir -p ../react
-    cp -r build/* ../react/
-    cp react-htaccess ../react/.htaccess
+    cp build ../../
 fi
