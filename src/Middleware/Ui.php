@@ -55,7 +55,7 @@ class Ui implements MiddlewareInterface
             $session = $GLOBALS['injector']->getInstance(\Horde_Session::class);
             $registry = $GLOBALS['injector']->getInstance(\Horde_Registry::class);
 
-            $jsGlobals = [
+            $jsGlobalsHorde = [
                 'appMode' => 'horde',
                 'sessionToken' => $session->getToken(),
                 'currentApp' => $registry->getApp(),
@@ -64,11 +64,26 @@ class Ui implements MiddlewareInterface
                 // TODO: Apps always show their English name
                 'appWebroot' => $registry->get('webroot', 'passwd'),
                 'languageKey' => $registry->preferredLang(),
+                'languages' => $registry->nlsconfig->languages,
             ];
+            ob_start();
+            $this->page_output->header([
+                'title' => _("Change Password"),
+                'view' => $this->registry::VIEW_DYNAMIC,
+            ]);
+            $this->page_output->addInlineJsVars([
+                'horde' => $jsGlobalsHorde,
+            ]);
+            $this->page_output->addScriptFile('react/runtime-main.release.js');
+            $this->page_output->addScriptFile('react/2.release.chunk.js');
+            $this->page_output->addScriptFile('react/main.release.chunk.js');
 
             $this->view->jsGlobals = json_encode($jsGlobals);
-            $output = $this->view->render('react-init');
-            $stream = $this->streamFactory->createStream($output);
+            $this->view->addTemplatePath(PASSWD_TEMPLATES);
+            echo $this->view->render('react-init');
+            $this->page_output->footer();
+            $stream = $this->streamFactory->createStream(ob_get_contents());
+            ob_end_clean();
             return $this->responseFactory->createResponse(200)->withBody($stream);
         }
 

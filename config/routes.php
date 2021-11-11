@@ -5,11 +5,13 @@ use Horde\Passwd\Middleware\RenderReactApp;
 use Horde\Core\Middleware\ReturnSessionToken;
 use Horde\Core\Middleware\DemandAuthenticatedUser;
 use Horde\Core\Middleware\DemandSessionToken;
+use Horde\Core\Translation\Middleware\Api\GetTranslation;
 
 use Horde\Passwd\Handler\ReactInit;
 use Horde\Passwd\Handler\Api\ChangePassword;
 use Horde\Passwd\Middleware\Ui;
-use Horde\Passwd\Middleware\LocaleApi;
+
+
 
 $mapper->connect(
     'ChangePassword',
@@ -26,11 +28,10 @@ $mapper->connect(
 
 $mapper->connect(
     'Locale',
-    '/translation/:language/:namespace',
+    '/i18n/:languageCode/:app/:namespace',
     [
-        'language' => 'en',
+        'controller' => GetTranslation::class,
         'namespace' => 'translation',
-        'controller' => LocaleApi::class,
         'stack' => [
             AuthHordeSession::class,
             DemandAuthenticatedUser::class,

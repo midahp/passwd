@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Passwd\n"
 "Report-Msgid-Bugs-To: dev@lists.horde.org\n"
-"POT-Creation-Date: 2017-07-26 12:13+0200\n"
+"POT-Creation-Date: 2021-11-12 09:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,6 +41,10 @@ msgstr ""
 msgid "Access Denied."
 msgstr ""
 
+#: config/prefs.php:22
+msgid "Basic UI"
+msgstr ""
+
 #: lib/Driver/Servuftp.php:69
 msgid "Cannot change password"
 msgstr ""
@@ -49,8 +53,17 @@ msgstr ""
 msgid "Cannot send command to server."
 msgstr ""
 
-#: index.php:25 templates/index.html.php:78
+#: src/Middleware/Ui.php:70 src/Middleware/Ui.php:94
+#: templates/index.html.php:78
 msgid "Change Password"
+msgstr ""
+
+#: src/TranslationData.php:12
+msgid "Change now"
+msgstr ""
+
+#: src/TranslationData.php:11
+msgid "Change password"
 msgstr ""
 
 #: templates/index.html.php:60
@@ -102,6 +115,18 @@ msgstr ""
 msgid "Could not start passwd program (no old password prompt)"
 msgstr ""
 
+#: src/TranslationData.php:31
+msgid "Current and new password must be different"
+msgstr ""
+
+#: src/TranslationData.php:20
+msgid "Current password"
+msgstr ""
+
+#: config/prefs.php:13
+msgid "Display Preferences"
+msgstr ""
+
 #: lib/Driver/Expectpecl.php:57
 msgid "End of file."
 msgstr ""
@@ -123,6 +148,10 @@ msgstr ""
 msgid "Full buffer."
 msgstr ""
 
+#: config/prefs.php:12
+msgid "General Preferences"
+msgstr ""
+
 #: lib/Driver.php:76 lib/Driver/Horde.php:47 lib/Driver/Http.php:55
 #: lib/Driver/Kolab.php:78 lib/Driver/Poppassd.php:120
 #: lib/Driver/Vmailmgr.php:40
@@ -138,8 +167,32 @@ msgstr ""
 msgid "Login to %s failed."
 msgstr ""
 
+#: config/prefs.php:23
+msgid "Material UI"
+msgstr ""
+
 #: lib/Driver/Ldap.php:164
 msgid "Minimum password age has not yet expired"
+msgstr ""
+
+#: src/TranslationData.php:22
+msgid "New Password (Confirmation)"
+msgstr ""
+
+#: src/TranslationData.php:21
+msgid "New password"
+msgstr ""
+
+#: src/TranslationData.php:35
+msgid "New password and confirmation do not match"
+msgstr ""
+
+#: src/TranslationData.php:33
+msgid "New password must at least contain {{min_length}} characters"
+msgstr ""
+
+#: src/TranslationData.php:34
+msgid "New password must at least contain {{min_number_of_numbers}} number(s)"
 msgstr ""
 
 #: lib/Driver/Expectpecl.php:129
@@ -150,16 +203,24 @@ msgstr ""
 msgid "New password:"
 msgstr ""
 
-#: lib/Factory/Driver.php:201
+#: lib/Factory/Driver.php:227
 msgid "No backend configured for this host"
 msgstr ""
 
-#: lib/Factory/Driver.php:184
+#: lib/Factory/Driver.php:210
 msgid "No backends configured in backends.php"
+msgstr ""
+
+#: src/TranslationData.php:26
+msgid "No notifications yet"
 msgstr ""
 
 #: lib/Driver/Poppassd.php:75
 msgid "No prompt returned from server."
+msgstr ""
+
+#: src/TranslationData.php:27
+msgid "Notifications"
 msgstr ""
 
 #: templates/index.html.php:29
@@ -191,6 +252,36 @@ msgstr ""
 msgid "Password module is not properly configured"
 msgstr ""
 
+#: src/Policy/MaxLength.php:27
+msgid "Password must not be longer than"
+msgstr ""
+
+#: src/Policy/MinLength.php:28
+msgid "Password must not be shorter than"
+msgstr ""
+
+#: src/TranslationData.php:32
+msgid "Password must not start or end with spaces"
+msgstr ""
+
+#: src/TranslationData.php:15
+msgid ""
+"Please enter a new password. Multiple constraints (length, complexity) may "
+"have to be fulfilled"
+msgstr ""
+
+#: src/TranslationData.php:14
+msgid "Please enter your current password"
+msgstr ""
+
+#: src/TranslationData.php:16
+msgid "Please enter your new password another time"
+msgstr ""
+
+#: src/TranslationData.php:17
+msgid "Please enter your username (if not filled automatically)"
+msgstr ""
+
 #: lib/Basic.php:145
 msgid "Please provide a new password"
 msgstr ""
@@ -211,11 +302,17 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
+#: config/prefs.php:14
+msgid ""
+"Select confirmation preferences, how to display the different views and "
+"choose default view."
+msgstr ""
+
 #: lib/Driver/Horde.php:36
 msgid "The current horde configuration does not allow changing passwords."
 msgstr ""
 
-#: lib/Factory/Driver.php:71
+#: lib/Factory/Driver.php:97
 #, php-format
 msgid "The password backend \"%s\" does not exist."
 msgstr ""
@@ -232,7 +329,7 @@ msgstr ""
 msgid "Time out."
 msgstr ""
 
-#: lib/Factory/Driver.php:78
+#: lib/Factory/Driver.php:104
 #, php-format
 msgid "Unable to load the definition of %s."
 msgstr ""
@@ -254,8 +351,16 @@ msgstr ""
 msgid "User not found."
 msgstr ""
 
+#: src/TranslationData.php:23
+msgid "Username"
+msgstr ""
+
 #: templates/index.html.php:18
 msgid "Username:"
+msgstr ""
+
+#: config/prefs.php:25
+msgid "Which UI to present when Horde is in Dynamic mode"
 msgstr ""
 
 #: lib/Basic.php:163

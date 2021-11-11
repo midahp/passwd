@@ -8,285 +8,435 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Passwd H3 (3.0.1)\n"
 "Report-Msgid-Bugs-To: dev@lists.horde.org\n"
-"POT-Creation-Date: 2008-04-15 12:57+0300\n"
+"POT-Creation-Date: 2021-11-12 09:43+0100\n"
 "PO-Revision-Date: 2008-04-15 12:57+0300\n"
 "Last-Translator: Emre Sezginer\n"
 "Language-Team: i18n@lists.horde.org\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: lib/Driver/expect.php:34
+#: lib/Driver/Ispconfig.php:77
+#, php-format
+msgid "%d users with login %s found, one expected."
+msgstr ""
+
+#: lib/Driver/Expect.php:31
 #, php-format
 msgid "%s does not exist or is not executable."
 msgstr "%s yok, ya da çalıştırılabilir değil."
 
-#: lib/Driver/composite.php:63
-#, php-format
-msgid "%s: unable to load driver: %s"
+#: lib/Driver/Composite.php:66
+#, fuzzy, php-format
+msgid "%s: unable to load sub driver: %s"
 msgstr "%s: sürücü yüklenemedi: %s"
 
-#: lib/Driver/adsi.php:61
+#: lib/Driver/Adsi.php:73
 #, php-format
 msgid "ADSI error %s."
 msgstr "ADSI hatası %s."
 
-#: lib/Driver/pspasswd.php:105 lib/Driver/adsi.php:64
+#: lib/Driver/Adsi.php:70 lib/Driver/Pspasswd.php:119
 msgid "Access Denied."
 msgstr "Erişim Engellendi."
 
-#: lib/Driver.php:89
-msgid "Backend not correctly implemented."
-msgstr "Arka araç doğru uygulanmamış."
+#: config/prefs.php:22
+#, fuzzy
+msgid "Basic UI"
+msgstr "Einfach"
 
-#: lib/Driver/poppassd.php:90
+#: lib/Driver/Servuftp.php:69
+#, fuzzy
+msgid "Cannot change password"
+msgstr "Şifre Değiştir"
+
+#: lib/Driver/Poppassd.php:98
 msgid "Cannot send command to server."
 msgstr "Sunucuya komut gönderilemiyor."
 
-#: main.php:255 templates/main/main.inc:142
+#: src/Middleware/Ui.php:70 src/Middleware/Ui.php:94
+#: templates/index.html.php:78
 msgid "Change Password"
 msgstr "Şifre Değiştir"
 
-#: templates/main/main.inc:127
-msgid "Change password on:"
+#: src/TranslationData.php:12
+#, fuzzy
+msgid "Change now"
+msgstr "Änderungsdatum"
+
+#: src/TranslationData.php:11
+#, fuzzy
+msgid "Change password"
+msgstr "Şifre Değiştir"
+
+#: templates/index.html.php:60
+#, fuzzy
+msgid "Change password for:"
 msgstr "Şifre değiştir:"
 
-#: templates/main/main.inc:62
+#: lib/Basic.php:132
 msgid "Change your password"
 msgstr "Şifrenizi değiştirin"
 
-#: templates/main/main.inc:69
-#, php-format
-msgid "Changing password on %s"
+#: lib/Basic.php:134
+#, fuzzy, php-format
+msgid "Changing password for %s"
 msgstr "%s şifreniz değiştiriliyor"
 
-#: templates/main/main.inc:114
+#: templates/index.html.php:49
 msgid "Confirm new password:"
 msgstr "Yeni şifreyi doğrulayınız:"
 
-#: lib/Driver/kolab.php:60 lib/Driver/ldap.php:95 lib/Driver/ldap.php:263
+#: lib/Driver/Servuftp.php:54
+#, fuzzy
+msgid "Connection failed"
+msgstr "Verbindung von"
+
+#: lib/Driver/Kolab.php:54
 msgid "Could not bind to LDAP server"
 msgstr "LDAP sunucuya bağ kurulamadı."
 
-#: lib/Driver/kolab.php:46 lib/Driver/ldap.php:70
+#: lib/Driver/Expectpecl.php:120
+#, fuzzy
+msgid "Could not change password (bad old password?)"
+msgstr "%s kullanıcısı için şifre değiştiremezsiniz"
+
+#: lib/Driver/Expectpecl.php:138
+#, fuzzy
+msgid "Could not change password."
+msgstr "Şifre Değiştir"
+
+#: lib/Driver/Kolab.php:40
 msgid "Could not connect to LDAP server"
 msgstr "LDAP sunucuya bağlanılamadı"
 
-#: lib/Driver/smbpasswd.php:57
+#: lib/Driver/Expectpecl.php:102
+#, fuzzy
+msgid "Could not login to system (no password prompt)"
+msgstr "smbpasswd komutuna tünel açılamadı."
+
+#: lib/Driver/Smbpasswd.php:66
 msgid "Could not open pipe to smbpasswd."
 msgstr "smbpasswd komutuna tünel açılamadı."
 
-#: lib/Driver/ldap.php:76
-msgid "Could not start TLS connection to LDAP server"
-msgstr "LDAP sunucuya TLS bağlantısı başlatılamadı"
+#: lib/Driver/Expectpecl.php:111
+msgid "Could not start passwd program (no old password prompt)"
+msgstr ""
 
-#: lib/Driver/smbpasswd.php:79
+#: src/TranslationData.php:31
+#, fuzzy
+msgid "Current and new password must be different"
+msgstr "Yeni şifreniz, şu anda geçerli olandan farklı olmalıdır"
+
+#: src/TranslationData.php:20
+#, fuzzy
+msgid "Current password"
+msgstr "Hatalı Şifre"
+
+#: config/prefs.php:13
+#, fuzzy
+msgid "Display Preferences"
+msgstr "Lizenzen bestellen"
+
+#: lib/Driver/Expectpecl.php:57
+msgid "End of file."
+msgstr ""
+
+#: lib/Driver/Smbpasswd.php:88
 msgid "Error sending data to smbpasswd."
 msgstr "smbpasswd ye veri gönderirken hata oluştu."
 
-#: lib/Driver/pspasswd.php:93
+#: lib/Driver/Pspasswd.php:109
 msgid "Failed to verify old password."
 msgstr "Eski şifre doğrulanamadı."
 
-#: main.php:211 lib/Driver/composite.php:97
-#, php-format
-msgid "Failure in changing password on %s: %s"
+#: lib/Basic.php:226 lib/Driver/Composite.php:84
+#, fuzzy, php-format
+msgid "Failure in changing password for %s: %s"
 msgstr "%s için şifre değiştirilemedi: %s"
 
-#: lib/Driver.php:60 lib/Driver/vmailmgr.php:42 lib/Driver/kolab.php:84
-#: lib/Driver/poppassd.php:120 lib/Driver/ldap.php:264
-msgid "Incorrect Password"
+#: lib/Driver/Expectpecl.php:63
+msgid "Full buffer."
+msgstr ""
+
+#: config/prefs.php:12
+#, fuzzy
+msgid "General Preferences"
+msgstr "Lizenzen bestellen"
+
+#: lib/Driver.php:76 lib/Driver/Horde.php:47 lib/Driver/Http.php:55
+#: lib/Driver/Kolab.php:78 lib/Driver/Poppassd.php:120
+#: lib/Driver/Vmailmgr.php:40
+#, fuzzy
+msgid "Incorrect old password."
 msgstr "Hatalı Şifre"
 
-#: lib/Driver/ldap.php:255
+#: lib/Driver/Servuftp.php:64
+#, fuzzy
+msgid "Incorrect password"
+msgstr "Hatalı Şifre"
+
+#: lib/Driver/Ispconfig.php:61
+#, fuzzy, php-format
+msgid "Login to %s failed."
+msgstr "Zugriff verweigert"
+
+#: config/prefs.php:23
+msgid "Material UI"
+msgstr ""
+
+#: lib/Driver/Ldap.php:164
 msgid "Minimum password age has not yet expired"
 msgstr "En az şifre kullanım süresi henuz dolmadı"
 
-#: templates/main/main.inc:102
+#: src/TranslationData.php:22
+#, fuzzy
+msgid "New Password (Confirmation)"
+msgstr "Neues Passwort für"
+
+#: src/TranslationData.php:21
+#, fuzzy
+msgid "New password"
+msgstr "Yeni şifre:"
+
+#: src/TranslationData.php:35
+#, fuzzy
+msgid "New password and confirmation do not match"
+msgstr "Şifreleriniz uymuyor"
+
+#: src/TranslationData.php:33
+#, fuzzy
+msgid "New password must at least contain {{min_length}} characters"
+msgstr "Das Passwort muss mindestens 8 Zeichen lang sein"
+
+#: src/TranslationData.php:34
+#, fuzzy
+msgid "New password must at least contain {{min_number_of_numbers}} number(s)"
+msgstr "Das Passwort darf nur Buchstaben und Zahlen enthalten"
+
+#: lib/Driver/Expectpecl.php:129
+msgid "New password not valid (too short, bad password, too similar, ...)"
+msgstr ""
+
+#: templates/index.html.php:39
 msgid "New password:"
 msgstr "Yeni şifre:"
 
-#: lib/Driver/poppassd.php:67
+#: lib/Factory/Driver.php:227
+#, fuzzy
+msgid "No backend configured for this host"
+msgstr "Geben Sie die IP des Hosts ein"
+
+#: lib/Factory/Driver.php:210
+msgid "No backends configured in backends.php"
+msgstr ""
+
+#: src/TranslationData.php:26
+#, fuzzy
+msgid "No notifications yet"
+msgstr "Benachrichtigung"
+
+#: lib/Driver/Poppassd.php:75
 msgid "No prompt returned from server."
 msgstr "Sunucudan tepki gelmedi."
 
-#: lib/Driver.php:116
-#, php-format
-msgid "No such backend \"%s\" found."
-msgstr "\"%s\" arka aracı bulunamadı."
+#: src/TranslationData.php:27
+#, fuzzy
+msgid "Notifications"
+msgstr "Benachrichtigung"
 
-#: templates/main/main.inc:90
+#: templates/index.html.php:29
 msgid "Old password:"
 msgstr "Eski şifre:"
 
-#: lib/Driver/smbpasswd.php:47
+#: lib/Driver/Smbpasswd.php:54
 msgid "Passwd is not properly configured."
 msgstr "Şifre doğru yapılandırılmadı."
 
-#: main.php:203
+#: lib/Basic.php:230
 #, php-format
 msgid "Password changed on %s."
 msgstr "%s için şifre değiştirildi."
 
-#: lib/Driver/sql.php:127
-#, php-format
-msgid "Password column \"%s\" not found in password table."
-msgstr "\"%s\" şifre kolonu, şifre tablosunda bulunamadı."
-
-#: lib/Driver/pspasswd.php:75
+#: lib/Driver/Pspasswd.php:83
 msgid "Password module can't find the supplied bin."
 msgstr "Şifre modülü, belirtilen uygulamayı bulamıyor."
 
-#: lib/Driver/pspasswd.php:73
+#: lib/Driver/Pspasswd.php:79 lib/Driver/Servuftp.php:41
 msgid "Password module is missing required parameters."
 msgstr "Şifre modülü için gerekli değişkenler eksik."
 
-#: lib/Driver/adsi.php:51
+#: lib/Driver/Adsi.php:58
 msgid "Password module is missing target parameter."
 msgstr "Şifre modülü için gerekli hedef değişken eksik."
 
-#: main.php:178 lib/Driver/servuftp.php:71
+#: lib/Basic.php:215
 msgid "Password module is not properly configured"
 msgstr "Şifre modülü doğru yapılandırılmadı"
 
-#: lib/Driver/servuftp.php:98
-msgid "Password module is not properly configured."
-msgstr "Şifre modülü doğru yapılandırılmadı ."
+#: src/Policy/MaxLength.php:27
+#, fuzzy
+msgid "Password must not be longer than"
+msgstr "Şifre modülü doğru yapılandırılmadı"
 
-#: templates/main/main.inc:11
+#: src/Policy/MinLength.php:28
+msgid "Password must not be shorter than"
+msgstr ""
+
+#: src/TranslationData.php:32
+#, fuzzy
+msgid "Password must not start or end with spaces"
+msgstr "Das Passwort muss mindestens 8 Zeichen lang sein"
+
+#: src/TranslationData.php:15
+msgid ""
+"Please enter a new password. Multiple constraints (length, complexity) may "
+"have to be fulfilled"
+msgstr ""
+
+#: src/TranslationData.php:14
+#, fuzzy
+msgid "Please enter your current password"
+msgstr "Lütfen şu anda geçerli olan şifreyi giriniz"
+
+#: src/TranslationData.php:16
+#, fuzzy
+msgid "Please enter your new password another time"
+msgstr "Lütfen yeni şifrenizi doğrulayınız"
+
+#: src/TranslationData.php:17
+#, fuzzy
+msgid "Please enter your username (if not filled automatically)"
+msgstr "Geben Sie bitte einen Benutzernamen für den Reseller-Admin an"
+
+#: lib/Basic.php:145
 msgid "Please provide a new password"
 msgstr "Lütfen yeni bir şifre giriniz"
 
-#: templates/main/main.inc:7
+#: lib/Basic.php:144
 msgid "Please provide your current password"
 msgstr "Lütfen şu anda geçerli olan şifreyi giriniz"
 
-#: templates/main/main.inc:15
+#: lib/Basic.php:146
 msgid "Please verify your new password"
 msgstr "Lütfen yeni şifrenizi doğrulayınız"
 
-#: lib/Driver/composite.php:41
+#: lib/Driver/Composite.php:42
 msgid "Required 'drivers' is misconfigured in Composite configuration."
 msgstr "Gerekli 'sürücü', bileşik yapılandırmada hatalı ayarlanmış."
 
-#: lib/Driver/sql.php:46
-msgid "Required 'phptype' not specified in Passwd SQL configuration."
-msgstr "Şifre SQL yapılandırmasında gerekli olan 'phptype' belirtilmedi."
-
-#: lib/Driver/vpopmail.php:49
-msgid "Required 'phptype' not specified in SQL configuration."
-msgstr "SQL yapılandırmasında gerekli olan 'phptype' belirtilmedi."
-
-#: templates/main/main.inc:143
+#: templates/index.html.php:79
 msgid "Reset"
 msgstr "Sıfırla"
 
-#: lib/Driver/sql.php:75 lib/Driver/vpopmail.php:83
-msgid "Unable to connect to SQL server."
+#: config/prefs.php:14
+msgid ""
+"Select confirmation preferences, how to display the different views and "
+"choose default view."
+msgstr ""
+
+#: lib/Driver/Horde.php:36
+#, fuzzy
+msgid "The current horde configuration does not allow changing passwords."
+msgstr "Die beiden Passworteingaben stimmen nicht überein"
+
+#: lib/Factory/Driver.php:97
+#, fuzzy, php-format
+msgid "The password backend \"%s\" does not exist."
+msgstr "Der Benutzername existiert nicht."
+
+#: lib/Driver/Http.php:48
+msgid "The requested website for changing user passwords could not be reached."
+msgstr ""
+
+#: lib/Driver/Http.php:58
+#, fuzzy
+msgid "The username could not be found."
+msgstr "Reseller konnte nicht gefunden werden"
+
+#: lib/Driver/Expectpecl.php:60
+#, fuzzy
+msgid "Time out."
+msgstr "Timeout"
+
+#: lib/Factory/Driver.php:104
+#, php-format
+msgid "Unable to load the definition of %s."
+msgstr ""
+
+#: lib/Driver/Expectpecl.php:96
+#, fuzzy
+msgid "Unable to open expect stream"
 msgstr "SQL sunucuya bağlantı kurulamadı."
 
-#: lib/Driver/sql.php:135 lib/Driver/poppassd.php:114
-#: lib/Driver/vpopmail.php:150
+#: lib/Driver/Servuftp.php:59
+#, fuzzy
+msgid "Unknown user"
+msgstr "Unbekannt"
+
+#: lib/Driver/Poppassd.php:113 lib/Driver/Sql.php:97
+#: lib/Driver/Vpopmail.php:111
 msgid "User not found"
 msgstr "Kullanıcı bulunamadı"
 
-#: lib/Driver/kolab.php:76 lib/Driver/pine.php:231 lib/Driver/ldap.php:131
+#: lib/Driver/Kolab.php:70 lib/Driver/Ldap.php:142 lib/Driver/Pine.php:240
 msgid "User not found."
 msgstr "Kullanıcı bulunamadı."
 
-#: templates/main/main.inc:77
+#: src/TranslationData.php:23
+msgid "Username"
+msgstr "Benutzername"
+
+#: templates/index.html.php:18
 msgid "Username:"
 msgstr "Kullanıcı Adı:"
 
-#: main.php:47
+#: config/prefs.php:25
+msgid "Which UI to present when Horde is in Dynamic mode"
+msgstr ""
+
+#: lib/Basic.php:163
 #, php-format
 msgid "You can't change password for user %s"
 msgstr "%s kullanıcısı için şifre değiştiremezsiniz"
 
-#: main.php:55
+#: lib/Basic.php:169
 msgid "You must give your current password"
 msgstr "Şu anda geçerli olan şifrenizi girmelisiniz"
 
-#: main.php:64
+#: lib/Basic.php:174
 msgid "You must give your new password"
 msgstr "Yeni şifrenizi girmelisiniz"
 
-#: main.php:68
+#: lib/Basic.php:178
 msgid "You must verify your new password"
 msgstr "Yeni şifrenizi doğrulamalısınız"
 
-#: main.php:88
-#, php-format
-msgid ""
-"Your new password is too long; passwords may not be more than %d characters "
-"long!"
-msgstr "Yeni şifreniz çok uzun. Şifre %d karakterden daha uzun olamaz!"
-
-#: main.php:167
-msgid "Your new password is too simple to guess!  Not changed!"
-msgstr "Yeni şifrenizi tahmin etmek çok kolay! Değiştirilmedi!"
-
-#: main.php:158
-msgid "Your new password is too simple to guess. Not changed!"
-msgstr "Yeni şifrenizi tahmin etmek çok kolay. Değiştirilmedi!"
-
-#: main.php:83
-#, php-format
-msgid "Your new password must be at least %d characters long!"
-msgstr "Yeni şifreniz en az %d karakter uzunluğunda olmalıdır!"
-
-#: main.php:76
+#: lib/Basic.php:188
 msgid "Your new password must be different from your current password"
 msgstr "Yeni şifreniz, şu anda geçerli olandan farklı olmalıdır"
 
-#: main.php:128
-#, php-format
-msgid "Your new password must contain at least %d alphabetic characters."
-msgstr "Yeni şifreniz en az %d harf içermelidir."
-
-#: main.php:133
-#, php-format
-msgid "Your new password must contain at least %d alphanumeric characters."
-msgstr "Yeni şifreniz en az %d alfasayısal karakter içermelidir."
-
-#: main.php:138
-#, php-format
-msgid ""
-"Your new password must contain at least %d different types of characters. "
-"The types are: lower, upper, numeric, and symbols."
-msgstr ""
-"Yeni şifreniz en az %d değişik çeşit karakter içermelidir. Çeşitler: küçük "
-"harf, büyük harf, sayı ve simge."
-
-#: main.php:118
-#, php-format
-msgid "Your new password must contain at least %d lowercase characters."
-msgstr "Yeni şifreniz en az %d küçük harf içermelidir."
-
-#: main.php:123
-#, php-format
-msgid "Your new password must contain at least %d numeric characters."
-msgstr "Yeni şifreniz en az %d sayı içermelidir ."
-
-#: main.php:113
-#, php-format
-msgid "Your new password must contain at least %d uppercase characters."
-msgstr "Yeni şifreniz en az %d büyük harf içermelidir."
-
-#: main.php:144
-#, php-format
-msgid "Your new password must contain less than %d whitespace characters."
-msgstr "Yeni şifreniz, %d adetden daha az boşluk içermelidir."
-
-#: main.php:146
-msgid "Your new password must not contain whitespace characters."
-msgstr "Yeni şifreniz boşluk içermemelidir."
-
-#: main.php:72
+#: lib/Basic.php:183
 msgid "Your new passwords didn't match"
 msgstr "Yeni şifreniz uymadı"
 
-#: templates/main/main.inc:19
+#: lib/Driver/Http.php:61
+#, fuzzy
+msgid "Your password could not be changed."
+msgstr "Şifreleriniz uymuyor"
+
+#: lib/Basic.php:238
+msgid ""
+"Your password has been succesfully changed. You need to re-login to the "
+"system with your new password."
+msgstr ""
+
+#: lib/Basic.php:147
 msgid "Your passwords do not match"
 msgstr "Şifreleriniz uymuyor"
+
+#: lib/Driver/Expectpecl.php:78
+msgid "expect extension cannot be loaded"
+msgstr ""
