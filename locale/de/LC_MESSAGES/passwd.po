@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Passwd H5 (5.0-git)\n"
 "Report-Msgid-Bugs-To: dev@lists.horde.org\n"
-"POT-Creation-Date: 2021-11-12 09:43+0100\n"
-"PO-Revision-Date: 2021-11-12 09:49+0100\n"
+"POT-Creation-Date: 2021-11-15 09:55+0100\n"
+"PO-Revision-Date: 2021-11-15 09:58+0100\n"
 "Last-Translator: Jan Schneider <jan@horde.org>\n"
 "Language-Team: German <i18n@lists.horde.org>\n"
 "Language: de\n"
@@ -55,16 +55,16 @@ msgstr "Passwort konnte nicht geändert werden"
 msgid "Cannot send command to server."
 msgstr "Kommando konnte nicht an den Server geschickt werden."
 
-#: src/Middleware/Ui.php:70 src/Middleware/Ui.php:94
+#: src/Middleware/Ui.php:71 src/Middleware/Ui.php:96
 #: templates/index.html.php:78
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-#: src/TranslationData.php:12
+#: src/Middleware/GetTranslation.php:18
 msgid "Change now"
 msgstr "Jetzt ändern"
 
-#: src/TranslationData.php:11
+#: src/Middleware/GetTranslation.php:17
 msgid "Change password"
 msgstr "Passwort ändern"
 
@@ -119,11 +119,11 @@ msgstr ""
 "passwd-Programm konnte nicht gestartet werden (kein Prompt für das alte "
 "Passwort)"
 
-#: src/TranslationData.php:31
+#: src/Middleware/GetTranslation.php:37
 msgid "Current and new password must be different"
 msgstr "Ihr neues Passwort muss sich von Ihrem alten unterscheiden"
 
-#: src/TranslationData.php:20
+#: src/Middleware/GetTranslation.php:26
 msgid "Current password"
 msgstr "Aktuelles Passwort"
 
@@ -173,29 +173,29 @@ msgstr "Anmeldung bei %s fehlgeschlagen."
 
 #: config/prefs.php:23
 msgid "Material UI"
-msgstr ""
+msgstr "Material UI"
 
 #: lib/Driver/Ldap.php:164
 msgid "Minimum password age has not yet expired"
 msgstr "Das minimale Passwortalter ist noch nicht abgelaufen"
 
-#: src/TranslationData.php:22
+#: src/Middleware/GetTranslation.php:28
 msgid "New Password (Confirmation)"
 msgstr "Neues Passwort (Bestätigung)"
 
-#: src/TranslationData.php:21
+#: src/Middleware/GetTranslation.php:27
 msgid "New password"
 msgstr "Neues Passwort:"
 
-#: src/TranslationData.php:35
+#: src/Middleware/GetTranslation.php:41
 msgid "New password and confirmation do not match"
 msgstr "Ihre Passwörter stimmen nicht überein"
 
-#: src/TranslationData.php:33
+#: src/Middleware/GetTranslation.php:39
 msgid "New password must at least contain {{min_length}} characters"
 msgstr "Das Neue Passwort muss mindestens {{min_length}} Zeichen lang sein"
 
-#: src/TranslationData.php:34
+#: src/Middleware/GetTranslation.php:40
 msgid "New password must at least contain {{min_number_of_numbers}} number(s)"
 msgstr ""
 "Das neue Passwort muss mindestens {{min_number_of_numbers}} Zahlen enthalten"
@@ -216,7 +216,7 @@ msgstr "Keine Backendkonfiguration für diesen Host angegeben"
 msgid "No backends configured in backends.php"
 msgstr "Keine Backends in backends.php konfiguriert"
 
-#: src/TranslationData.php:26
+#: src/Middleware/GetTranslation.php:32
 msgid "No notifications yet"
 msgstr "Keine Benachrichtigungen"
 
@@ -224,7 +224,7 @@ msgstr "Keine Benachrichtigungen"
 msgid "No prompt returned from server."
 msgstr "Kein Prompt vom Server zurückgeliefert."
 
-#: src/TranslationData.php:27
+#: src/Middleware/GetTranslation.php:33
 msgid "Notifications"
 msgstr "Benachrichtigung"
 
@@ -263,27 +263,29 @@ msgstr "Passwort darf nicht länger sein als"
 
 #: src/Policy/MinLength.php:28
 msgid "Password must not be shorter than"
-msgstr ""
+msgstr "Passwort darf kürzer sein als"
 
-#: src/TranslationData.php:32
+#: src/Middleware/GetTranslation.php:38
 msgid "Password must not start or end with spaces"
 msgstr "Das Passwort darf nicht mit Leerzeichen anfangen oder enden"
 
-#: src/TranslationData.php:15
+#: src/Middleware/GetTranslation.php:21
 msgid ""
 "Please enter a new password. Multiple constraints (length, complexity) may "
 "have to be fulfilled"
 msgstr ""
+"Bitte ein Passwort eingeben. Mehrere Bedingungen (Länge, Komplexität) müssen "
+"eingehalten werden"
 
-#: src/TranslationData.php:14
+#: src/Middleware/GetTranslation.php:20
 msgid "Please enter your current password"
 msgstr "Bitte geben Sie Ihr aktuelles Passwort an"
 
-#: src/TranslationData.php:16
+#: src/Middleware/GetTranslation.php:22
 msgid "Please enter your new password another time"
 msgstr "Bitte bestätigen Sie Ihr neues Passwort"
 
-#: src/TranslationData.php:17
+#: src/Middleware/GetTranslation.php:23
 msgid "Please enter your username (if not filled automatically)"
 msgstr "Bitte den Usernamen eingeben (wenn nicht automatisch ausgefüllt)"
 
@@ -357,7 +359,7 @@ msgstr "Benutzer nicht gefunden"
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: src/TranslationData.php:23
+#: src/Middleware/GetTranslation.php:29
 msgid "Username"
 msgstr "Benutzername"
 
