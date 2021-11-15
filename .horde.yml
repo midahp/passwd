@@ -37,6 +37,7 @@ dependencies:
       horde/horde: ^6
       horde/auth: ^3
       horde/core: ^3
+      horde/core_translation: ^3
       horde/exception: ^3
       horde/injector: ^3
       horde/util: ^3

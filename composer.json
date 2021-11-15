@@ -16,31 +16,32 @@
             "role": "lead"
         }
     ],
-    "time": "2021-10-28",
+    "time": "2021-11-15",
     "repositories": [
         {
             "type": "composer",
-            "url": "https://horde-satis.maintaina.com/"
+            "url": "https://horde-satis.maintaina.com"
         }
     ],
     "require": {
-        "horde/horde-installer-plugin": "*",
+        "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || *",
         "php": "^7.4 || ^8",
-        "horde/horde": "^6",
-        "horde/auth": "^3",
-        "horde/core": "^3",
-        "horde/exception": "^3",
-        "horde/injector": "^3",
-        "horde/util": "^3",
-        "horde/view": "^3",
+        "horde/horde": "^6 || dev-FRAMEWORK_6_0",
+        "horde/auth": "^3 || dev-FRAMEWORK_6_0",
+        "horde/core": "^3 || dev-FRAMEWORK_6_0",
+        "horde/core_translation": "^3 || dev-FRAMEWORK_6_0",
+        "horde/exception": "^3 || dev-FRAMEWORK_6_0",
+        "horde/injector": "^3 || dev-FRAMEWORK_6_0",
+        "horde/util": "^3 || dev-FRAMEWORK_6_0",
+        "horde/view": "^3 || dev-FRAMEWORK_6_0",
         "ext-gettext": "*"
     },
     "require-dev": {},
     "suggest": {
-        "horde/db": "^3",
-        "horde/http": "^3",
-        "horde/ldap": "^3",
-        "horde/vfs": "^3",
+        "horde/db": "^3 || dev-FRAMEWORK_6_0",
+        "horde/http": "^3 || dev-FRAMEWORK_6_0",
+        "horde/ldap": "^3 || dev-FRAMEWORK_6_0",
+        "horde/vfs": "^3 || dev-FRAMEWORK_6_0",
         "pear/crypt_chap": "^2",
         "ext-com": "*",
         "ext-ldap": "*",
