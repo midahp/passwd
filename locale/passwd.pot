@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Passwd\n"
 "Report-Msgid-Bugs-To: dev@lists.horde.org\n"
-"POT-Creation-Date: 2021-11-12 09:43+0100\n"
+"POT-Creation-Date: 2021-11-15 09:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,16 +53,16 @@ msgstr ""
 msgid "Cannot send command to server."
 msgstr ""
 
-#: src/Middleware/Ui.php:70 src/Middleware/Ui.php:94
+#: src/Middleware/Ui.php:71 src/Middleware/Ui.php:96
 #: templates/index.html.php:78
 msgid "Change Password"
 msgstr ""
 
-#: src/TranslationData.php:12
+#: src/Middleware/GetTranslation.php:18
 msgid "Change now"
 msgstr ""
 
-#: src/TranslationData.php:11
+#: src/Middleware/GetTranslation.php:17
 msgid "Change password"
 msgstr ""
 
@@ -115,11 +115,11 @@ msgstr ""
 msgid "Could not start passwd program (no old password prompt)"
 msgstr ""
 
-#: src/TranslationData.php:31
+#: src/Middleware/GetTranslation.php:37
 msgid "Current and new password must be different"
 msgstr ""
 
-#: src/TranslationData.php:20
+#: src/Middleware/GetTranslation.php:26
 msgid "Current password"
 msgstr ""
 
@@ -175,23 +175,23 @@ msgstr ""
 msgid "Minimum password age has not yet expired"
 msgstr ""
 
-#: src/TranslationData.php:22
+#: src/Middleware/GetTranslation.php:28
 msgid "New Password (Confirmation)"
 msgstr ""
 
-#: src/TranslationData.php:21
+#: src/Middleware/GetTranslation.php:27
 msgid "New password"
 msgstr ""
 
-#: src/TranslationData.php:35
+#: src/Middleware/GetTranslation.php:41
 msgid "New password and confirmation do not match"
 msgstr ""
 
-#: src/TranslationData.php:33
+#: src/Middleware/GetTranslation.php:39
 msgid "New password must at least contain {{min_length}} characters"
 msgstr ""
 
-#: src/TranslationData.php:34
+#: src/Middleware/GetTranslation.php:40
 msgid "New password must at least contain {{min_number_of_numbers}} number(s)"
 msgstr ""
 
@@ -211,7 +211,7 @@ msgstr ""
 msgid "No backends configured in backends.php"
 msgstr ""
 
-#: src/TranslationData.php:26
+#: src/Middleware/GetTranslation.php:32
 msgid "No notifications yet"
 msgstr ""
 
@@ -219,7 +219,7 @@ msgstr ""
 msgid "No prompt returned from server."
 msgstr ""
 
-#: src/TranslationData.php:27
+#: src/Middleware/GetTranslation.php:33
 msgid "Notifications"
 msgstr ""
 
@@ -260,25 +260,25 @@ msgstr ""
 msgid "Password must not be shorter than"
 msgstr ""
 
-#: src/TranslationData.php:32
+#: src/Middleware/GetTranslation.php:38
 msgid "Password must not start or end with spaces"
 msgstr ""
 
-#: src/TranslationData.php:15
+#: src/Middleware/GetTranslation.php:21
 msgid ""
 "Please enter a new password. Multiple constraints (length, complexity) may "
 "have to be fulfilled"
 msgstr ""
 
-#: src/TranslationData.php:14
+#: src/Middleware/GetTranslation.php:20
 msgid "Please enter your current password"
 msgstr ""
 
-#: src/TranslationData.php:16
+#: src/Middleware/GetTranslation.php:22
 msgid "Please enter your new password another time"
 msgstr ""
 
-#: src/TranslationData.php:17
+#: src/Middleware/GetTranslation.php:23
 msgid "Please enter your username (if not filled automatically)"
 msgstr ""
 
@@ -351,7 +351,7 @@ msgstr ""
 msgid "User not found."
 msgstr ""
 
-#: src/TranslationData.php:23
+#: src/Middleware/GetTranslation.php:29
 msgid "Username"
 msgstr ""
 

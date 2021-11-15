@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Passwd 2.0.1-cvs\n"
 "Report-Msgid-Bugs-To: dev@lists.horde.org\n"
-"POT-Creation-Date: 2021-11-12 09:43+0100\n"
+"POT-Creation-Date: 2021-11-15 09:55+0100\n"
 "PO-Revision-Date: 2002-11-19 20:44-0500\n"
 "Last-Translator: Miroslav Pendev <miro@cybershade.us>\n"
 "Language-Team: BG i18n@lists.horde.org\n"
@@ -55,17 +55,17 @@ msgstr "Смяна на паролата"
 msgid "Cannot send command to server."
 msgstr ""
 
-#: src/Middleware/Ui.php:70 src/Middleware/Ui.php:94
+#: src/Middleware/Ui.php:71 src/Middleware/Ui.php:96
 #: templates/index.html.php:78
 msgid "Change Password"
 msgstr "Смяна на паролата"
 
-#: src/TranslationData.php:12
+#: src/Middleware/GetTranslation.php:18
 #, fuzzy
 msgid "Change now"
 msgstr "Änderungsdatum"
 
-#: src/TranslationData.php:11
+#: src/Middleware/GetTranslation.php:17
 #, fuzzy
 msgid "Change password"
 msgstr "Смяна на паролата"
@@ -124,15 +124,16 @@ msgid "Could not open pipe to smbpasswd."
 msgstr "Невъзможност да се отвори канал до smbpasswd."
 
 #: lib/Driver/Expectpecl.php:111
+#, fuzzy
 msgid "Could not start passwd program (no old password prompt)"
-msgstr ""
+msgstr "Невъзможност да се отвори канал до smbpasswd."
 
-#: src/TranslationData.php:31
+#: src/Middleware/GetTranslation.php:37
 #, fuzzy
 msgid "Current and new password must be different"
 msgstr "Новата Ви парола трябва да е различна от текущата"
 
-#: src/TranslationData.php:20
+#: src/Middleware/GetTranslation.php:26
 #, fuzzy
 msgid "Current password"
 msgstr "Нова парола:"
@@ -195,27 +196,27 @@ msgstr ""
 msgid "Minimum password age has not yet expired"
 msgstr "Ihr Passwort ist abgelaufen."
 
-#: src/TranslationData.php:22
+#: src/Middleware/GetTranslation.php:28
 #, fuzzy
 msgid "New Password (Confirmation)"
 msgstr "Neues Passwort für"
 
-#: src/TranslationData.php:21
+#: src/Middleware/GetTranslation.php:27
 #, fuzzy
 msgid "New password"
 msgstr "Нова парола:"
 
-#: src/TranslationData.php:35
+#: src/Middleware/GetTranslation.php:41
 #, fuzzy
 msgid "New password and confirmation do not match"
 msgstr "Новата Ви парола не беше повторена коректно!"
 
-#: src/TranslationData.php:33
+#: src/Middleware/GetTranslation.php:39
 #, fuzzy
 msgid "New password must at least contain {{min_length}} characters"
 msgstr "Das Passwort muss mindestens 8 Zeichen lang sein"
 
-#: src/TranslationData.php:34
+#: src/Middleware/GetTranslation.php:40
 #, fuzzy
 msgid "New password must at least contain {{min_number_of_numbers}} number(s)"
 msgstr "Das Passwort darf nur Buchstaben und Zahlen enthalten"
@@ -234,10 +235,11 @@ msgid "No backend configured for this host"
 msgstr "Geben Sie die IP des Hosts ein"
 
 #: lib/Factory/Driver.php:210
+#, fuzzy
 msgid "No backends configured in backends.php"
-msgstr ""
+msgstr "Geben Sie die IP des Hosts ein"
 
-#: src/TranslationData.php:26
+#: src/Middleware/GetTranslation.php:32
 #, fuzzy
 msgid "No notifications yet"
 msgstr "Benachrichtigung"
@@ -246,7 +248,7 @@ msgstr "Benachrichtigung"
 msgid "No prompt returned from server."
 msgstr ""
 
-#: src/TranslationData.php:27
+#: src/Middleware/GetTranslation.php:33
 #, fuzzy
 msgid "Notifications"
 msgstr "Benachrichtigung"
@@ -290,31 +292,32 @@ msgid "Password must not be longer than"
 msgstr "Password не е конфигуриран правилно"
 
 #: src/Policy/MinLength.php:28
+#, fuzzy
 msgid "Password must not be shorter than"
-msgstr ""
+msgstr "Password не е конфигуриран правилно"
 
-#: src/TranslationData.php:32
+#: src/Middleware/GetTranslation.php:38
 #, fuzzy
 msgid "Password must not start or end with spaces"
 msgstr "Das Passwort muss mindestens 8 Zeichen lang sein"
 
-#: src/TranslationData.php:15
+#: src/Middleware/GetTranslation.php:21
 msgid ""
 "Please enter a new password. Multiple constraints (length, complexity) may "
 "have to be fulfilled"
 msgstr ""
 
-#: src/TranslationData.php:14
+#: src/Middleware/GetTranslation.php:20
 #, fuzzy
 msgid "Please enter your current password"
 msgstr "Bitte geben Sie ein Passwort ein."
 
-#: src/TranslationData.php:16
+#: src/Middleware/GetTranslation.php:22
 #, fuzzy
 msgid "Please enter your new password another time"
 msgstr "Geben Sie bitte ein Passwort für den neuen Admin an"
 
-#: src/TranslationData.php:17
+#: src/Middleware/GetTranslation.php:23
 #, fuzzy
 msgid "Please enter your username (if not filled automatically)"
 msgstr "Geben Sie bitte einen Benutzernamen für den Reseller-Admin an"
@@ -397,7 +400,7 @@ msgstr "Няма такъв потребител"
 msgid "User not found."
 msgstr "Няма такъв потребител."
 
-#: src/TranslationData.php:23
+#: src/Middleware/GetTranslation.php:29
 msgid "Username"
 msgstr "Benutzername"
 
