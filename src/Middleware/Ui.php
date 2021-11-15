@@ -64,7 +64,7 @@ class Ui implements MiddlewareInterface
                 // TODO: Apps always show their English name
                 'appWebroot' => $registry->get('webroot', 'passwd'),
                 'languageKey' => $registry->preferredLang(),
-                'languages' => $registry->nlsconfig->languages,
+                'supportedLanguages' => $registry->nlsconfig->languages,
             ];
             ob_start();
             $this->page_output->header([
@@ -78,7 +78,6 @@ class Ui implements MiddlewareInterface
             $this->page_output->addScriptFile('react/2.release.chunk.js');
             $this->page_output->addScriptFile('react/main.release.chunk.js');
 
-            $this->view->jsGlobals = json_encode($jsGlobals);
             $this->view->addTemplatePath(PASSWD_TEMPLATES);
             echo $this->view->render('react-init');
             $this->page_output->footer();
