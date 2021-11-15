@@ -5,7 +5,7 @@ use Horde\Passwd\Middleware\RenderReactApp;
 use Horde\Core\Middleware\ReturnSessionToken;
 use Horde\Core\Middleware\DemandAuthenticatedUser;
 use Horde\Core\Middleware\DemandSessionToken;
-use Horde\Core\Translation\Middleware\Api\GetTranslation;
+use Horde\Passwd\Middleware\GetTranslation;
 
 use Horde\Passwd\Handler\ReactInit;
 use Horde\Passwd\Handler\Api\ChangePassword;

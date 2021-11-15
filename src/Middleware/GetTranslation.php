@@ -1,15 +1,19 @@
 <?php
+
 declare(strict_types=1);
-namespace Horde\Passwd;
 
-use \Horde\Core\Translation\Data\TranslationDataI;
+namespace Horde\Passwd\Middleware;
 
-class TranslationData implements TranslationDataI
+use Horde\Core\Translation\Middleware\Api\GetTranslationBase;
+
+/**
+ * Returns locale json file for a specific language and namespace.
+ */
+class GetTranslation extends GetTranslationBase
 {
-    public array $data;
-
-    public function __construct(){
-        $this->data = [
+    protected function getData(): array
+    {
+        return  [
             "application_title" => _("Change password"),
             "change_now" => _("Change now"),
             "helper_text" => [
@@ -37,10 +41,5 @@ class TranslationData implements TranslationDataI
                 "new_confirm_different" => _("New password and confirmation do not match")
             ],
         ];
-    }
-
-    function getData(string $ns = 'translation'): array
-    {
-        return $this->data;
     }
 }
