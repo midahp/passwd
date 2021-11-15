@@ -1,1 +1,0 @@
-RewriteRule "^/?$"  ../../horde/rampage.php [QSA,L]

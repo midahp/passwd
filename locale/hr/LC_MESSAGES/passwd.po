@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Passwd H3 (3.1)\n"
 "Report-Msgid-Bugs-To: dev@lists.horde.org\n"
-"POT-Creation-Date: 2011-11-04 15:10+0100\n"
+"POT-Creation-Date: 2021-11-12 09:43+0100\n"
 "PO-Revision-Date: 2011-11-08 16:49+0200\n"
 "Last-Translator: Valentin Vidic <Valentin.Vidic@CARNet.hr>\n"
 "Language-Team: i18n@lists.horde.org\n"
@@ -18,275 +18,412 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: lib/Driver/Expect.php:30
+#: lib/Driver/Ispconfig.php:77
+#, php-format
+msgid "%d users with login %s found, one expected."
+msgstr ""
+
+#: lib/Driver/Expect.php:31
 #, php-format
 msgid "%s does not exist or is not executable."
 msgstr "%s ne postoji ili nemate dozvole za izvršavanje."
 
-#: lib/Driver/Composite.php:67
+#: lib/Driver/Composite.php:66
 #, php-format
 msgid "%s: unable to load sub driver: %s"
 msgstr "%s: nije uspjelo učitavanje pokretačkog programa: %s"
 
-#: lib/Driver/Adsi.php:69
+#: lib/Driver/Adsi.php:73
 #, php-format
 msgid "ADSI error %s."
 msgstr "ADSI greška %s."
 
-#: lib/Driver/Adsi.php:66 lib/Driver/Pspasswd.php:118
+#: lib/Driver/Adsi.php:70 lib/Driver/Pspasswd.php:119
 msgid "Access Denied."
 msgstr "Pristup odbijen."
 
-#: lib/Driver/Servuftp.php:63
+#: config/prefs.php:22
+#, fuzzy
+msgid "Basic UI"
+msgstr "Einfach"
+
+#: lib/Driver/Servuftp.php:69
 msgid "Cannot change password"
 msgstr "Promjena lozinke nije uspjela"
 
-#: lib/Driver/Poppassd.php:86
+#: lib/Driver/Poppassd.php:98
 msgid "Cannot send command to server."
 msgstr "Nije uspjelo slanje naredbe na poslužitelj."
 
-#: index.php:226 templates/index.html.php:84
+#: src/Middleware/Ui.php:70 src/Middleware/Ui.php:94
+#: templates/index.html.php:78
 msgid "Change Password"
 msgstr "Promijeni lozinku"
 
-#: index.php:187
+#: src/TranslationData.php:12
+#, fuzzy
+msgid "Change now"
+msgstr "Änderungsdatum"
+
+#: src/TranslationData.php:11
+#, fuzzy
+msgid "Change password"
+msgstr "Promijeni lozinku"
+
+#: templates/index.html.php:60
 msgid "Change password for:"
 msgstr "Promijenite lozinku za:"
 
-#: index.php:203
+#: lib/Basic.php:132
 msgid "Change your password"
 msgstr "Promijenite Vašu lozinku"
 
-#: index.php:205
+#: lib/Basic.php:134
 #, php-format
 msgid "Changing password for %s"
 msgstr "Promjena lozinke za %s"
 
-#: index.php:186
+#: templates/index.html.php:49
 msgid "Confirm new password:"
 msgstr "Potvrda nove lozinke:"
 
-#: lib/Driver/Servuftp.php:51
+#: lib/Driver/Servuftp.php:54
 msgid "Connection failed"
 msgstr "Povezivanje neuspješno"
 
-#: lib/Driver/Kolab.php:49
+#: lib/Driver/Kolab.php:54
 msgid "Could not bind to LDAP server"
 msgstr "Prijava na LDAP poslužitelj nije uspjela"
 
-#: lib/Driver/Expectpecl.php:104
+#: lib/Driver/Expectpecl.php:120
 msgid "Could not change password (bad old password?)"
 msgstr "Promjena lozinke nije uspjela (neispravna stara lozinka?)"
 
-#: lib/Driver/Expectpecl.php:118
+#: lib/Driver/Expectpecl.php:138
 msgid "Could not change password."
 msgstr "Promjena lozinke nije uspjela."
 
-#: lib/Driver/Kolab.php:35
+#: lib/Driver/Kolab.php:40
 msgid "Could not connect to LDAP server"
 msgstr "Spajanje na LDAP poslužitelj nije uspjelo."
 
-#: lib/Driver/Expectpecl.php:90
+#: lib/Driver/Expectpecl.php:102
 msgid "Could not login to system (no password prompt)"
 msgstr "Prijava na sustav nije uspjela (nema upita lozinke)"
 
-#: lib/Driver/Smbpasswd.php:56
+#: lib/Driver/Smbpasswd.php:66
 msgid "Could not open pipe to smbpasswd."
 msgstr "Spajanje na smbpasswd nije uspjelo."
 
-#: lib/Driver/Expectpecl.php:97
+#: lib/Driver/Expectpecl.php:111
 msgid "Could not start passwd program (no old password prompt)"
 msgstr "Pokretanje passwd programa nije uspjelo (nema upita stare lozinke)"
 
-#: lib/Driver/Expectpecl.php:41
+#: src/TranslationData.php:31
+#, fuzzy
+msgid "Current and new password must be different"
+msgstr "Nova i stara lozinka ne smiju biti iste"
+
+#: src/TranslationData.php:20
+#, fuzzy
+msgid "Current password"
+msgstr "Neispravna stara lozinka"
+
+#: config/prefs.php:13
+#, fuzzy
+msgid "Display Preferences"
+msgstr "Lizenzen bestellen"
+
+#: lib/Driver/Expectpecl.php:57
 msgid "End of file."
 msgstr "Kraj datoteke."
 
-#: lib/Driver/Smbpasswd.php:78
+#: lib/Driver/Smbpasswd.php:88
 msgid "Error sending data to smbpasswd."
 msgstr "Greška prilikom slanja podataka u smbpasswd."
 
-#: lib/Driver/Pspasswd.php:108
+#: lib/Driver/Pspasswd.php:109
 msgid "Failed to verify old password."
 msgstr "Provjera stare lozinke nije uspjela."
 
-#: index.php:147 lib/Driver/Composite.php:100
+#: lib/Basic.php:226 lib/Driver/Composite.php:84
 #, php-format
 msgid "Failure in changing password for %s: %s"
 msgstr "Promjena lozinke za %s nije uspjela: %s"
 
-#: lib/Driver/Expectpecl.php:45
+#: lib/Driver/Expectpecl.php:63
 msgid "Full buffer."
 msgstr "Pun međuspremnik."
 
-#: lib/Driver.php:66 lib/Driver/Http.php:59 lib/Driver/Vmailmgr.php:38
-#: lib/Driver/Poppassd.php:115 lib/Driver/Horde.php:40 lib/Driver/Kolab.php:73
+#: config/prefs.php:12
+#, fuzzy
+msgid "General Preferences"
+msgstr "Lizenzen bestellen"
+
+#: lib/Driver.php:76 lib/Driver/Horde.php:47 lib/Driver/Http.php:55
+#: lib/Driver/Kolab.php:78 lib/Driver/Poppassd.php:120
+#: lib/Driver/Vmailmgr.php:40
 msgid "Incorrect old password."
 msgstr "Neispravna stara lozinka."
 
-#: lib/Driver/Servuftp.php:59
+#: lib/Driver/Servuftp.php:64
 msgid "Incorrect password"
 msgstr "Neispravna stara lozinka"
 
-#: lib/Driver/Ldap.php:154
+#: lib/Driver/Ispconfig.php:61
+#, fuzzy, php-format
+msgid "Login to %s failed."
+msgstr "Zugriff verweigert"
+
+#: config/prefs.php:23
+msgid "Material UI"
+msgstr ""
+
+#: lib/Driver/Ldap.php:164
 msgid "Minimum password age has not yet expired"
 msgstr "Još nije prošao minimalni period između promjena lozinke"
 
-#: lib/Driver/Expectpecl.php:111
+#: src/TranslationData.php:22
+#, fuzzy
+msgid "New Password (Confirmation)"
+msgstr "Neues Passwort für"
+
+#: src/TranslationData.php:21
+#, fuzzy
+msgid "New password"
+msgstr "Nova lozinka:"
+
+#: src/TranslationData.php:35
+#, fuzzy
+msgid "New password and confirmation do not match"
+msgstr "Nove lozinke se ne podudaraju"
+
+#: src/TranslationData.php:33
+#, fuzzy
+msgid "New password must at least contain {{min_length}} characters"
+msgstr "Das Passwort muss mindestens 8 Zeichen lang sein"
+
+#: src/TranslationData.php:34
+#, fuzzy
+msgid "New password must at least contain {{min_number_of_numbers}} number(s)"
+msgstr "Das Passwort darf nur Buchstaben und Zahlen enthalten"
+
+#: lib/Driver/Expectpecl.php:129
 msgid "New password not valid (too short, bad password, too similar, ...)"
 msgstr ""
 "Nova lozinka nije ispravna (prekratka, neispravna stara lozinka, preslična "
 "staroj lozinki, ...)"
 
-#: index.php:185
+#: templates/index.html.php:39
 msgid "New password:"
 msgstr "Nova lozinka:"
 
-#: lib/Passwd.php:46
+#: lib/Factory/Driver.php:227
 msgid "No backend configured for this host"
 msgstr "Za ovaj stroj nije podešena metoda filtriranja."
 
-#: lib/Passwd.php:19
+#: lib/Factory/Driver.php:210
 msgid "No backends configured in backends.php"
 msgstr "U backends.php nije podešena nijedna metoda filtriranja."
 
-#: lib/Driver/Poppassd.php:64
+#: src/TranslationData.php:26
+#, fuzzy
+msgid "No notifications yet"
+msgstr "Benachrichtigung"
+
+#: lib/Driver/Poppassd.php:75
 msgid "No prompt returned from server."
 msgstr "Poslužitelj nije poslao upit."
 
-#: index.php:184
+#: src/TranslationData.php:27
+#, fuzzy
+msgid "Notifications"
+msgstr "Benachrichtigung"
+
+#: templates/index.html.php:29
 msgid "Old password:"
 msgstr "Stara lozinka:"
 
-#: lib/Driver/Smbpasswd.php:46
+#: lib/Driver/Smbpasswd.php:54
 msgid "Passwd is not properly configured."
 msgstr "Promjena lozinke nije ispravno konfigurirana."
 
-#: lib/Application.php:47
-msgid "Password"
-msgstr "Lozinka"
-
-#: index.php:134
+#: lib/Basic.php:230
 #, php-format
 msgid "Password changed on %s."
 msgstr "Lozinka za %s je uspješno promijenjena."
 
-#: lib/Driver/Pspasswd.php:75
+#: lib/Driver/Pspasswd.php:83
 msgid "Password module can't find the supplied bin."
 msgstr "Modul za promjenu lozinki ne može pronaći zadani program."
 
-#: lib/Driver/Servuftp.php:34 lib/Driver/Pspasswd.php:72
+#: lib/Driver/Pspasswd.php:79 lib/Driver/Servuftp.php:41
 msgid "Password module is missing required parameters."
 msgstr "Nedostaju obavezni parametri modula za promjenu lozinki."
 
-#: lib/Driver/Adsi.php:55
+#: lib/Driver/Adsi.php:58
 msgid "Password module is missing target parameter."
 msgstr "Nedostaje parametar odredišta modula za promjenu lozinki."
 
-#: index.php:115
+#: lib/Basic.php:215
 msgid "Password module is not properly configured"
 msgstr "Modul za promjenu lozinki nije ispravno konfiguriran"
 
-#: index.php:220
+#: src/Policy/MaxLength.php:27
+#, fuzzy
+msgid "Password must not be longer than"
+msgstr "Modul za promjenu lozinki nije ispravno konfiguriran"
+
+#: src/Policy/MinLength.php:28
+msgid "Password must not be shorter than"
+msgstr ""
+
+#: src/TranslationData.php:32
+#, fuzzy
+msgid "Password must not start or end with spaces"
+msgstr "Das Passwort muss mindestens 8 Zeichen lang sein"
+
+#: src/TranslationData.php:15
+msgid ""
+"Please enter a new password. Multiple constraints (length, complexity) may "
+"have to be fulfilled"
+msgstr ""
+
+#: src/TranslationData.php:14
+#, fuzzy
+msgid "Please enter your current password"
+msgstr "Molimo unesite svoju trenutnu lozinku"
+
+#: src/TranslationData.php:16
+#, fuzzy
+msgid "Please enter your new password another time"
+msgstr "Molimo unesite svoju lozinku."
+
+#: src/TranslationData.php:17
+#, fuzzy
+msgid "Please enter your username (if not filled automatically)"
+msgstr "Geben Sie bitte einen Benutzernamen für den Reseller-Admin an"
+
+#: lib/Basic.php:145
 msgid "Please provide a new password"
 msgstr "Molimo unesite novu lozinku"
 
-#: index.php:219
+#: lib/Basic.php:144
 msgid "Please provide your current password"
 msgstr "Molimo unesite svoju trenutnu lozinku"
 
-#: index.php:221
+#: lib/Basic.php:146
 msgid "Please verify your new password"
 msgstr "Molimo unesite svoju lozinku."
 
-#: lib/Driver/Composite.php:41
+#: lib/Driver/Composite.php:42
 msgid "Required 'drivers' is misconfigured in Composite configuration."
 msgstr "Parametar 'drivers' nije ispravan u Composite konfiguraciji."
 
-#: templates/index.html.php:85
+#: templates/index.html.php:79
 msgid "Reset"
 msgstr "Resetiraj"
 
-#: lib/Driver/Horde.php:31
+#: config/prefs.php:14
+msgid ""
+"Select confirmation preferences, how to display the different views and "
+"choose default view."
+msgstr ""
+
+#: lib/Driver/Horde.php:36
 msgid "The current horde configuration does not allow changing passwords."
 msgstr "Trenutna horde konfiguracija ne dozvoljava promjenu lozinki."
 
-#: lib/Factory/Driver.php:50
+#: lib/Factory/Driver.php:97
 #, php-format
 msgid "The password backend \"%s\" does not exist."
 msgstr "Protokol za izmjenu lozinki \"%s\" ne postoji."
 
-#: lib/Driver/Http.php:52
+#: lib/Driver/Http.php:48
 msgid "The requested website for changing user passwords could not be reached."
 msgstr "Web stranica za promjenu korisničkih lozinki nije dostupna."
 
-#: lib/Driver/Http.php:62
+#: lib/Driver/Http.php:58
 msgid "The username could not be found."
 msgstr "Korisničko ime nije pronađeno."
 
-#: lib/Driver/Expectpecl.php:43
+#: lib/Driver/Expectpecl.php:60
 msgid "Time out."
 msgstr "Vrijeme izvršavanje isteklo."
 
-#: lib/Factory/Driver.php:57
+#: lib/Factory/Driver.php:104
 #, php-format
 msgid "Unable to load the definition of %s."
 msgstr "Nije uspjelo učitavanje definicije %s."
 
-#: lib/Driver/Expectpecl.php:85
+#: lib/Driver/Expectpecl.php:96
 msgid "Unable to open expect stream"
 msgstr "Nije uspjelo spajanje na expect"
 
-#: lib/Driver/Servuftp.php:55
+#: lib/Driver/Servuftp.php:59
 msgid "Unknown user"
 msgstr "Nepoznat korisnik"
 
-#: lib/Driver/Poppassd.php:108 lib/Driver/Sql.php:95
-#: lib/Driver/Vpopmail.php:105
+#: lib/Driver/Poppassd.php:113 lib/Driver/Sql.php:97
+#: lib/Driver/Vpopmail.php:111
 msgid "User not found"
 msgstr "Korisnik nije pronađen"
 
-#: lib/Driver/Ldap.php:134 lib/Driver/Pine.php:243 lib/Driver/Kolab.php:65
+#: lib/Driver/Kolab.php:70 lib/Driver/Ldap.php:142 lib/Driver/Pine.php:240
 msgid "User not found."
 msgstr "Korisnik nije pronađen."
 
-#: index.php:183
+#: src/TranslationData.php:23
+msgid "Username"
+msgstr "Benutzername"
+
+#: templates/index.html.php:18
 msgid "Username:"
 msgstr "Korisničko ime:"
 
-#: index.php:58
+#: config/prefs.php:25
+msgid "Which UI to present when Horde is in Dynamic mode"
+msgstr ""
+
+#: lib/Basic.php:163
 #, php-format
 msgid "You can't change password for user %s"
 msgstr "Ne možete promjeniti lozinku za korisnika %s"
 
-#: index.php:66
+#: lib/Basic.php:169
 msgid "You must give your current password"
 msgstr "Morate unijeti svoju trenutnu lozinku"
 
-#: index.php:75
+#: lib/Basic.php:174
 msgid "You must give your new password"
 msgstr "Morate unijeti novu lozinku"
 
-#: index.php:79
+#: lib/Basic.php:178
 msgid "You must verify your new password"
 msgstr "Morate potvrditi novu lozinku"
 
-#: index.php:87
+#: lib/Basic.php:188
 msgid "Your new password must be different from your current password"
 msgstr "Nova i stara lozinka ne smiju biti iste"
 
-#: index.php:83
+#: lib/Basic.php:183
 msgid "Your new passwords didn't match"
 msgstr "Nove lozinke se ne podudaraju"
 
-#: lib/Driver/Http.php:65
+#: lib/Driver/Http.php:61
 msgid "Your password could not be changed."
 msgstr "Promjena lozinke nije uspjela."
 
-#: index.php:222
+#: lib/Basic.php:238
+msgid ""
+"Your password has been succesfully changed. You need to re-login to the "
+"system with your new password."
+msgstr ""
+
+#: lib/Basic.php:147
 msgid "Your passwords do not match"
 msgstr "Nove lozinke se ne podudaraju"
 
-#: lib/Driver/Expectpecl.php:65
+#: lib/Driver/Expectpecl.php:78
 msgid "expect extension cannot be loaded"
 msgstr "expect proširenje se ne može učitati"
