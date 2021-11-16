@@ -66,23 +66,10 @@ class Ui implements MiddlewareInterface
                 'languageKey' => $registry->preferredLang(),
                 'supportedLanguages' => $registry->nlsconfig->languages,
             ];
-            ob_start();
-            $this->page_output->header([
-                'title' => _("Change Password"),
-                'view' => $this->registry::VIEW_DYNAMIC,
-            ]);
-            $this->page_output->addInlineJsVars([
-                'horde' => $jsGlobalsHorde,
-            ]);
-            $this->page_output->addScriptFile('react/runtime-main.release.js');
-            $this->page_output->addScriptFile('react/2.release.chunk.js');
-            $this->page_output->addScriptFile('react/main.release.chunk.js');
-
             $this->view->addTemplatePath(PASSWD_TEMPLATES);
-            echo $this->view->render('react-init');
-            $this->page_output->footer();
-            $stream = $this->streamFactory->createStream(ob_get_contents());
-            ob_end_clean();
+            $this->view->jsGlobalsHorde = json_encode($jsGlobalsHorde);
+            $output = $this->view->render('react-init');
+            $stream = $this->streamFactory->createStream($output);
             return $this->responseFactory->createResponse(200)->withBody($stream);
         }
 
