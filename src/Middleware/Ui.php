@@ -63,13 +63,11 @@ class Ui implements MiddlewareInterface
             $session = $GLOBALS['injector']->getInstance(\Horde_Session::class);
             $registry = $GLOBALS['injector']->getInstance(\Horde_Registry::class);
 
-            // getting node information of Horde top-menubar
-            $menu = $this->topbar->create('Horde_Tree_Renderer_Nodes', array('nosession' => true));
+            // getting node information of Horde top-menubar: this will be saved in jsGlobalsHorde
+            $menu = $this->topbar->create('Passwd_Tree_Nodesobject', array('nosession' => true));
             $menu =  $menu->getTree();
-            $modified = $menu->getNodes();
-            $nodes = json_encode($modified);
+            $nodes = $menu->getNodes();
 
-            // adding information (like info on nodes) to the global Hordevariable
             $jsGlobalsHorde = [
                 'appMode' => 'horde',
                 'sessionToken' => $session->getToken(),
@@ -83,14 +81,12 @@ class Ui implements MiddlewareInterface
                 'nodes' => $nodes
             ];
 
-            
             ob_start();
-            
-            // das react lädt auch ohne diesen Header. Wenn der Header  hinzugefügt wird, zeigt sich die HTML-Struktur mit den Menufinos
-            // $this->page_output->header([
-            //     'title' => _("Change Password"),
-            //     'view' => $this->registry::VIEW_DYNAMIC,
-            // ]);
+          
+            $this->page_output->header([
+                'title' => _("Change Password"),
+                'view' => $this->registry::VIEW_DYNAMIC,
+            ]);
 
             $this->page_output->addInlineJsVars([
                 'horde' => $jsGlobalsHorde,
