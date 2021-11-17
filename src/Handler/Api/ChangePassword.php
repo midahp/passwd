@@ -59,7 +59,7 @@ class ChangePassword implements RequestHandlerInterface
         // Das habe ich noch im Frontend angepasst dazu: fetch("api/changepw",{method:"POST",headers:{"Horde-Session-Token":globalThis.horde.sessionToken,"Accept":"application/json","Content-Type":"multipart/form-data"},body:JSON.stringify(t)}).then((function(e){return e.json()})).then((function(e){return console.log(e)})).catch((function(e){console.log(e)})))}
 
         $user = $post->username;
-        $currentPassword = $post->oldPassword;
+        $currentPassword = $post->currentPassword;
         $newPassword = $post->newPassword;
         $confirmPassword = $post->newPasswordConfirm;
 
