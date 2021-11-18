@@ -17,8 +17,10 @@ use Passwd_Basic;
 use Horde_Registry;
 use Horde_Session;
 use Horde_View;
+use Horde_Core_Factory_Topbar as Topbar;
 
-class Ui implements MiddlewareInterface
+
+class Ui implements MiddlewareInterface 
 {
     protected ResponseFactoryInterface $responseFactory;
     protected StreamFactoryInterface $streamFactory;
@@ -27,6 +29,8 @@ class Ui implements MiddlewareInterface
     protected Horde_Registry $registry;
     protected Horde_PageOutput $page_output;
     protected Horde_View $view;
+    protected Topbar $topbar;
+    
 
     public function __construct(
         ResponseFactoryInterface $responseFactory,
@@ -35,7 +39,9 @@ class Ui implements MiddlewareInterface
         Horde_Registry $registry,
         Horde_Session $session,
         Horde_PageOutput $page_output,
-        Horde_View $view
+        Horde_View $view,
+        Topbar $topbar
+        
     ) {
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
@@ -44,6 +50,8 @@ class Ui implements MiddlewareInterface
         $this->session = $session;
         $this->page_output = $page_output;
         $this->view = $view;
+        $this->topbar = $topbar;
+        
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -55,6 +63,11 @@ class Ui implements MiddlewareInterface
             $session = $GLOBALS['injector']->getInstance(\Horde_Session::class);
             $registry = $GLOBALS['injector']->getInstance(\Horde_Registry::class);
 
+            // getting node information of Horde top-menubar: this will be saved in jsGlobalsHorde
+            $menu = $this->topbar->create('Passwd_Tree_Nodesobject', array('nosession' => true));
+            $menu =  $menu->getTree();
+            $nodes = $menu->getNodes();
+
             $jsGlobalsHorde = [
                 'appMode' => 'horde',
                 'sessionToken' => $session->getToken(),
@@ -65,6 +78,7 @@ class Ui implements MiddlewareInterface
                 'appWebroot' => $registry->get('webroot', 'passwd'),
                 'languageKey' => $registry->preferredLang(),
                 'supportedLanguages' => $registry->nlsconfig->languages,
+                'nodes' => $nodes
             ];
             $this->view->addTemplatePath(PASSWD_TEMPLATES);
             $this->view->jsGlobalsHorde = json_encode($jsGlobalsHorde);
