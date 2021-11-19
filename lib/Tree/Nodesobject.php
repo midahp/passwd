@@ -23,13 +23,60 @@ class Passwd_Tree_Nodesobject extends Horde_Tree_Renderer_Base
      * @param boolean $static  Unused.
      *
      * @return json  The json code of the rendered tree.
+     * 
+     * Volgende Struktur des Jsons für React:
+     * {
+     * entryId: "subpage1_category",
+     * type: "entry",
+     * parent: "",
+     * caption: "Category 1",
+     * action: "router",
+     * targetUrl: "/subpage1",
+     * icon: "",
+     * },
+     * 
+     * 
      */
     public function getNodes()
-    {
-        $postdata = $this->_tree->getNodes();
-        $post = json_encode($postdata, JSON_FORCE_OBJECT);
-        $post = json_decode($post);
-        return $post; 
-    }
+    {       
+        $nodes = $this->_tree->getNodes();
 
+        // Resulting object for react
+        $reactOb = [];
+
+        // Creating basic array without parents
+        foreach($nodes as $key => $value){
+
+            $reactOb_Value['entryId'] = $key;
+            $reactOb_Value['type'] = 'entry';  
+            $reactOb_Value['parent'] = '';
+            $reactOb_Value['caption'] = $key;
+            $reactOb_Value['action'] = 'router';       
+            $reactOb_Value['targetUrl'] = $value['url'];
+            $reactOb_Value['icon'] = $value['icon'];            
+
+            $reactOb[$key] = $reactOb_Value;
+        }
+
+        // Creating more specific array with parents
+        foreach($nodes as $key => $value){
+
+            if (isset($value['children'])) {
+                # if children, then assing parent to child
+                foreach($value['children'] as $int => $childname){
+                    foreach($reactOb as $reactkey => $reactvalue){
+                        if($reactkey === $childname){
+                            $reactOb[$reactkey]['parent'] = $key;
+                        }
+                    }
+                }
+
+                
+            }
+
+        }
+        return $reactOb; 
+    }
 }
+      
+            
