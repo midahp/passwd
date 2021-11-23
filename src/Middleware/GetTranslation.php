@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Horde\Passwd\Middleware;
 
-use Horde\Core\Translation\Middleware\Api\GetTranslationBase;
+use Horde\Core\Translation\GetTranslationBase;
 
 /**
  * Returns locale json file for a specific language and namespace.
